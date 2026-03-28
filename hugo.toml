@@ -1,0 +1,43 @@
+baseURL = 'https://blog.vertsineu.top/'
+locale = 'en-us'
+title = "Vertsineu's Blog"
+theme = 'PaperMod'
+
+[params]
+    env = 'production'
+    defaultTheme = 'auto'
+    ShowReadingTime = true
+    ShowShareButtons = false
+    ShowPostNavLinks = true
+    math = true
+
+[params.homeInfoParams]
+  Title = "Hi there \U0001F44B"
+  Content = "Welcome to my blog! Here is where I share my thoughts on tech, life, and everything in between."
+
+[[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/Vertsineu"
+
+[markup.typst]
+    root = "./"
+    packagePath = "./packages"
+    jobs = 4
+
+[[menu.main]]
+    identifier = "posts"
+    name = "Posts"
+    url = "/posts/"
+    weight = 10
+
+[[menu.main]]
+    identifier = "archives"
+    name = "Archives"
+    url = "/archives/"
+    weight = 20
+
+[[menu.main]]
+    identifier = "search"
+    name = "Search"
+    url = "/search/"
+    weight = 30

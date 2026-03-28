@@ -1,0 +1,18 @@
+/* Scoped styles for Typst-exported raw code blocks.
+   These rules only apply inside .typst-raw-block wrappers emitted by core.typ. */
+
+.post-content .typst-raw-block pre > code[data-lang] {
+  display: block !important;
+  white-space: pre;
+}
+
+.post-content .typst-raw-block pre > code[data-lang] > span {
+  display: inline !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* Invert Typst inline highlight token colors while keeping the block background unchanged. */
+.post-content .typst-raw-block pre > code[data-lang] span[style*="color:"] {
+  filter: invert(1) hue-rotate(180deg);
+}
