@@ -24,6 +24,10 @@ theme = 'PaperMod'
     packagePath = "./packages"
     jobs = 4
 
+[markup.typst.watch]
+    enabled = true
+    timeout = "3s"
+
 [[menu.main]]
     identifier = "posts"
     name = "Posts"
