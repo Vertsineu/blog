@@ -3,7 +3,7 @@
 
 #show: article.with(
   title: "如何在 Hugo 中使用 Typst 编写文章",
-  date: datetime.today(),
+  date: datetime(year: 2026, month: 3, day: 29),
   draft: false,
 )
 
@@ -516,7 +516,7 @@ Typst 方面主要是增强实验性 HTML 导出的功能。万幸的是，Typst
 
 #show: article.with(
   title: "如何在 Hugo 中使用 Typst 编写文章",
-  date: datetime.today(),
+  date: datetime(year: 2026, month: 3, day: 29),
   draft: true,
 )
 
