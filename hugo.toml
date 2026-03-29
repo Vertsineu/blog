@@ -19,6 +19,14 @@ theme = 'PaperMod'
     name = "github"
     url = "https://github.com/Vertsineu"
 
+[[params.socialIcons]]
+    name = "forgejo"
+    url = "https://git.vertsineu.top/Vertsineu"
+
+[[params.socialIcons]]
+    name = "email"
+    url = "mailto:vertsineu@gmail.com"
+
 [markup.typst]
     root = "./"
     packagePath = "./packages"
