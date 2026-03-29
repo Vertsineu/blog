@@ -2,9 +2,13 @@
 
 #let article(
   title: "",
+  description: "",
+  tags: (),
   date: datetime.today(),
+  weight: 10,
   draft: false,
   body,
+  ..args
 ) = {
   // for relative length unit
   set text(size: 18pt)
@@ -64,8 +68,12 @@
 
   let prelude = metadata((
     title: title,
+    description: description,
+    tags: tags,
     date: date.display("[year]-[month]-[day]"),
+    weight: weight,
     draft: draft,
+    ..args.named()
   ))
 
   prelude
