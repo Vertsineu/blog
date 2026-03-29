@@ -1,3 +1,4 @@
+// some utility functions for better HTML output, e.g. support for colors, alignments, etc.
 #let frame = html.frame
 
 #let to-length(value) = {
@@ -59,4 +60,18 @@
   color = to-color(color)
 
   html.span(style: "color: " + str(color) + ";", body)
+}
+
+// some enhancements elements for Typst
+// e.g support blockquote, collapsible, etc.
+#let blockquote = html.blockquote
+
+#let collapsible(open: false, summary, body) = {
+  html.details(
+    open: open,
+    {
+      html.summary(summary)
+      html.div(body)
+    }
+  )
 }
