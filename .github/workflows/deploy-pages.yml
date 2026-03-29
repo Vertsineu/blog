@@ -1,0 +1,70 @@
+name: Deploy Hugo Site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+
+      - name: Install custom Hugo from source
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Installing Hugo from Vertsineu/hugo@support-typst"
+          git clone --depth 1 --branch "support-typst" "https://github.com/Vertsineu/hugo.git" /tmp/custom-hugo
+
+          cd /tmp/custom-hugo
+          # Hugo docs: extended build from source uses CGO_ENABLED=1 and -tags extended.
+          CGO_ENABLED=1 go install -tags extended .
+
+          export PATH="$HOME/go/bin:$PATH"
+          echo "$HOME/go/bin" >> "$GITHUB_PATH"
+
+          hugo version
+
+      - name: Build site
+        run: |
+          hugo --gc --minify
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
