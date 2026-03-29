@@ -12,6 +12,12 @@
   max-width: none !important;
 }
 
+/* PaperMod shifts pre left inside ul; cancel it for Typst raw blocks in lists. */
+.post-content ul .typst-raw-block pre,
+.post-content ol .typst-raw-block pre {
+  margin-inline-start: 0 !important;
+}
+
 /* Invert Typst inline highlight token colors while keeping the block background unchanged. */
 .post-content .typst-raw-block pre > code[data-lang] span[style*="color:"] {
   filter: invert(1) hue-rotate(180deg);
