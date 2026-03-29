@@ -1,4 +1,5 @@
 #import "@hugo/utils:0.1.0": *
+#import "@hugo/rewrites:0.1.0": *
 
 #let article(
   title: "",
@@ -8,51 +9,20 @@
   weight: 10,
   draft: false,
   body,
-  ..args
+  ..args,
 ) = {
   // for relative length unit
   set text(size: 18pt)
 
-  // wrap raw content in a div/span with a class for styling
-  show raw.where(block: false): html.span.with(class: "typst-raw-inline")
-  show raw.where(block: true): html.div.with(class: "typst-raw-block")
-
-  // equation was ignored during HTML export
-  show math.equation.where(block: false): it => {
-    html.span(role: "math", frame(it))
-  }
-  show math.equation.where(block: true): it => {
-    html.figure(role: "math", style: "text-align: center;", frame(it))
-  }
-
-  // make figure and table centered by default
-  show figure: it => align(center, {
-    let body = it.body
-    let caption = align(center, it.caption)
-    let output = if it.kind == table {
-      caption
-      body
-    } else {
-      body
-      caption
-    }
-    html.figure(output)
-  })
-
-  // make links open in new tab if it's an external link
-  show link: it => {
-    let body = it.body
-    let dest = it.dest
-    if type(dest) != str {
-      it
-    } else if dest.starts-with("http") {
-      body = text-colored(color.rgb("#59a4ff"), underline(body))
-      html.a(body, href: dest, target: "_blank", rel: ("noopener", "noreferrer"))
-    } else {
-      body = text-colored(color.rgb("#c24bbc"), underline(body))
-      html.a(body, href: dest)
-    }
-  }
+  // rewrite some built-in functions to better support HTML output
+  show h: h-func
+  show v: v-func
+  show table: table-func
+  show align: align-func
+  show figure: figure-func
+  show link: link-func
+  show raw: raw-func
+  show math.equation: math-equation-func
 
   /// label for cutting content
   show <->: it => it
@@ -88,7 +58,7 @@
     date: date.display("[year]-[month]-[day]"),
     weight: weight,
     draft: draft,
-    ..args.named()
+    ..args.named(),
   ))
 
   prelude
