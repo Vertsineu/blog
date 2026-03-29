@@ -1,0 +1,35 @@
+/* Prefer color remapping over full invert to avoid overly bright white in dark mode. */
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) {
+  -webkit-filter: none !important;
+  filter: none !important;
+}
+
+:root {
+  --typst-frame-ink: #000;
+}
+
+html[data-theme="dark"] {
+  --typst-frame-ink: var(--content);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --typst-frame-ink: var(--content);
+  }
+}
+
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="#000"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="#000000"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="black"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="rgb(0,0,0)"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="rgb(0, 0, 0)"] {
+  fill: var(--typst-frame-ink) !important;
+}
+
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="#000"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="#000000"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="black"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="rgb(0,0,0)"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="rgb(0, 0, 0)"] {
+  stroke: var(--typst-frame-ink) !important;
+}
