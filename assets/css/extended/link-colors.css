@@ -1,0 +1,5 @@
+/* Remove theme link decoration so Typst controls link styling. */
+.post-content a[href] {
+  box-shadow: none !important;
+  text-decoration: none !important;
+}

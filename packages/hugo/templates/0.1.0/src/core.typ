@@ -39,6 +39,19 @@
     html.figure(output)
   })
 
+  // make links open in new tab if it's an external link
+  show link: it => {
+    let body = it.body
+    let dest = it.dest
+    if dest.starts-with("http") {
+      body = text-colored(color.rgb("#59a4ff"), underline(body))
+      html.a(body, href: dest, target: "_blank", rel: ("noopener", "noreferrer"))
+    } else {
+      body = text-colored(color.rgb("#c24bbc"), underline(body))
+      html.a(body, href: dest)
+    }
+  }
+
   /// label for cutting content
   show <->: it => it
 
