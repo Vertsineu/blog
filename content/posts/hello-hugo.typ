@@ -4,7 +4,7 @@
 #show: article.with(
   title: "如何在 Hugo 中使用 Typst 编写文章",
   date: datetime.today(),
-  draft: true,
+  draft: false,
 )
 
 = 前言
