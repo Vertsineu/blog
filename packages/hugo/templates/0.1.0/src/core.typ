@@ -43,7 +43,9 @@
   show link: it => {
     let body = it.body
     let dest = it.dest
-    if dest.starts-with("http") {
+    if type(dest) != str {
+      it
+    } else if dest.starts-with("http") {
       body = text-colored(color.rgb("#59a4ff"), underline(body))
       html.a(body, href: dest, target: "_blank", rel: ("noopener", "noreferrer"))
     } else {
