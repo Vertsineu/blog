@@ -49,6 +49,13 @@ jobs:
 
           hugo version
 
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v5
+
+      - name: Check Typst version
+        run: |
+          typst --version
+
       - name: Build site
         run: |
           hugo --gc --minify
