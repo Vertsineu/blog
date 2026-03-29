@@ -439,53 +439,10 @@ Typst 方面主要是增强实验性 HTML 导出的功能。万幸的是，Typst
 
 以下我将简要介绍几个常见的功能的实现：
 
-- `#h` 和 `#v` 函数的实现：
+- 一些辅助函数，主要用于将 Typst 内置类型转换为 CSS 样式，比如 alignment 转换为 CSS 的 place-items：
 
   ```typ
-  #let h(len) = {
-    len = to-length(len)
-
-    context html.span(
-      style: "display: inline-block; width: 100%; width: " + str(len.to-absolute().pt()) + "px;",
-    )
-  }
-
-  #let v(len) = {
-    len = to-length(len)
-
-    context html.div(
-      style: "height: " + str(len.to-absolute().pt()) + "px;",
-    )
-  }
-
-  #let to-length(len) = {
-    if type(len) == int {
-      len * 1pt
-    } else if type(len) == float {
-      int(len) * 1pt
-    } else if type(len) == length {
-      len
-    } else {
-      panic("Unsupported length type, please use int, float, length!")
-    }
-  }
-  ```
-
-  使用 div 和 span 容器配合 CSS 来实现水平和垂直的空白。
-
-- `#align` 函数的实现：
-
-  ```typ
-  #let align(alignment, body) = {
-    let (x-align, y-align) = to-alignment(alignment)
-    let place-items = y-align + " " + x-align
-
-    html.div(
-      style: "display: grid; place-items: " + place-items + ";",
-      body
-    )
-  }
-
+  // support: place-items, text-align, vertical-align, etc.
   #let to-alignment(alignment) = {
     if type(alignment) != std.alignment {
       panic("Unsupported alignment type, please use a valid alignment!")
@@ -521,7 +478,42 @@ Typst 方面主要是增强实验性 HTML 导出的功能。万幸的是，Typst
   }
   ```
 
-  将 Typst 内置的 alignment 类型转换为 CSS 的 place-items 属性的值来实现对齐功能。
+- `#h`、`#v` 和 `#align` 等内置函数的实现：
+
+  ```typ
+  #let h-func(it) = {
+    let amount = it.amount.to-absolute().pt()
+    html.span(
+      style: "display: inline-block; width: 100%; width: " + str(amount) + "px;",
+    )
+  }
+
+  #let v-func(it) = {
+    let amount = it.amount.to-absolute().pt()
+    html.div(
+      style: "height: " + str(amount) + "px;",
+    )
+  }
+
+  #let align-func(it) = {
+    let (x-align, y-align) = to-alignment(it.alignment)
+    let place-items = y-align + " " + x-align
+
+    html.div(
+      style: "display: grid; place-items: " + place-items + ";",
+      it.body,
+    )
+  }
+  ```
+
+  内置函数一律通过 show rules 来重写成 HTML 标签，比如在 article 模板中：
+
+  ```typ
+  #show h: h-func
+  #show v: v-func
+  #show align: align-func
+  // ...
+  ```
 
 除此之外，针对我使用的 PaperMod 主题的样式，我还实现了一些 CSS 样式，比如对于链接、代码块的样式，位于 `/assets/css/extended` 目录下，具体就不展开介绍了，感兴趣的话可以直接看源代码。
 
