@@ -9,6 +9,7 @@ theme = 'PaperMod'
     ShowReadingTime = true
     ShowShareButtons = false
     ShowPostNavLinks = true
+    ShowCodeCopyButtons = true
     math = true
 
 [params.homeInfoParams]
