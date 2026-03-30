@@ -1,6 +1,10 @@
 #import "@hugo/utils:0.1.0": *
 
-#let outline-func(it) = {
+#let outline-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
   html.div(
     class: "toc",
     style: "display: none",
@@ -10,21 +14,33 @@
 
 #let outline-entry-func = list.item
 
-#let h-func(it) = {
+#let h-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
   let amount = it.amount.to-absolute().pt()
   html.span(
     style: "display: inline-block; width: 100%; width: " + str(amount) + "px;",
   )
 }
 
-#let v-func(it) = {
+#let v-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
   let amount = it.amount.to-absolute().pt()
   html.div(
     style: "height: " + str(amount) + "px;",
   )
 }
 
-#let align-func(it) = {
+#let align-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
   let (x-align, y-align) = to-alignment(it.alignment)
   let place-items = y-align + " " + x-align
 
@@ -35,7 +51,11 @@
 }
 
 // make figure and table centered by default
-#let figure-func(it) = {
+#let figure-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
   let body = it.body
   let caption = align(center, it.caption)
   let output = if it.kind == table {
@@ -48,7 +68,11 @@
   align(center, html.figure(output))
 }
 
-#let table-func(it) = {
+#let table-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
   let columns = it.columns.len()
   let align = it.align
   let entries = it.children.map(c => c.body)
@@ -90,7 +114,11 @@
 }
 
 // make links open in new tab if it's an external link
-#let link-func(it) = {
+#let link-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
   let body = it.body
   let dest = it.dest
   if type(dest) != str {
@@ -105,7 +133,11 @@
 }
 
 // equation was ignored during HTML export
-#let math-equation-func(it) = {
+#let math-equation-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+  
   let block = it.block
   if block {
     html.figure(role: "math", style: "text-align: center;", frame(it))
@@ -115,7 +147,11 @@
 }
 
 // wrap raw content in a div/span with a class for styling
-#let raw-func(it) = {
+#let raw-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
   let block = it.block
   if block {
     html.div(class: "typst-raw-block", it)
