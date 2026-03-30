@@ -6,15 +6,18 @@
 
 :root {
   --typst-frame-ink: #000;
+  --typst-frame-paper: #fff;
 }
 
 html[data-theme="dark"] {
   --typst-frame-ink: var(--content);
+  --typst-frame-paper: var(--theme);
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) {
     --typst-frame-ink: var(--content);
+    --typst-frame-paper: var(--theme);
   }
 }
 
@@ -32,4 +35,20 @@ html[data-theme="dark"] {
 :is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="rgb(0,0,0)"],
 :is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="rgb(0, 0, 0)"] {
   stroke: var(--typst-frame-ink) !important;
+}
+
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="#fff"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="#ffffff"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="white"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="rgb(255,255,255)"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [fill="rgb(255, 255, 255)"] {
+  fill: var(--typst-frame-paper) !important;
+}
+
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="#fff"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="#ffffff"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="white"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="rgb(255,255,255)"],
+:is(svg.typst-frame, .typst-frame > svg.typst-frame, .typst-frame > svg, .typst-frame svg.typst-frame) [stroke="rgb(255, 255, 255)"] {
+  stroke: var(--typst-frame-paper) !important;
 }
