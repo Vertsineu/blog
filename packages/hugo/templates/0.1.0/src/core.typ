@@ -12,6 +12,24 @@
   body,
   ..args,
 ) = {
+  let prelude = metadata((
+    title: title,
+    description: description,
+    tags: tags,
+    date: date.display("[year]-[month]-[day]"),
+    weight: weight,
+    draft: draft,
+    ..args.named(),
+  ))
+
+  // custom front matter for Typst
+  prelude
+  
+  if "query" in sys.inputs and sys.inputs.query == "prelude" {
+    // early return to avoid unnecessary rendering when only prelude is needed, e.g. front matter
+    return
+  }
+
   // for relative length unit
   set text(size: 18pt)
 
@@ -53,18 +71,6 @@
 
   // label for frame
   show <frame>: frame
-
-  let prelude = metadata((
-    title: title,
-    description: description,
-    tags: tags,
-    date: date.display("[year]-[month]-[day]"),
-    weight: weight,
-    draft: draft,
-    ..args.named(),
-  ))
-
-  prelude
 
   if toc {
     outline(title: none)
