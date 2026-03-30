@@ -8,7 +8,7 @@
   html.div(
     class: "toc",
     style: "display: none",
-    collapsible([Table of Contents], it)
+    collapsible([Table of Contents], it),
   )
 }
 
@@ -137,7 +137,7 @@
   if target() != "html" {
     return it
   }
-  
+
   let block = it.block
   if block {
     html.figure(role: "math", style: "text-align: center;", frame(it))
@@ -158,4 +158,17 @@
   } else {
     html.span(class: "typst-raw-inline", it)
   }
+}
+
+#let image-func(it) = context {
+  if target() != "html" {
+    return it
+  }
+
+  let alt = if it.alt != none { it.alt } else { "" }
+  let src = if type(it.source) == str { it.source } else {
+    panic("unsupported image source type for HTML output, please use a string!")
+  }
+
+  html.img(src: src, alt: alt, loading: "lazy")
 }

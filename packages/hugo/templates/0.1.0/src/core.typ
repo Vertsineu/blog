@@ -26,7 +26,7 @@
 
   // custom front matter for Typst
   prelude
-  
+
   if "query" in sys.inputs and sys.inputs.query == "prelude" {
     // early return to avoid unnecessary rendering when only prelude is needed, e.g. front matter
     return
@@ -48,6 +48,7 @@
   show math.equation: math-equation-func
   show outline: outline-func
   show outline.entry: outline-entry-func
+  show image: image-func
 
   /// label for cutting content
   show <->: it => it
