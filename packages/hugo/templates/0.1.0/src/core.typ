@@ -9,6 +9,8 @@
   weight: 10,
   draft: false,
   toc: true,
+  lang: "zh",
+  region: "cn",
   body,
   ..args,
 ) = {
@@ -33,6 +35,7 @@
   // for relative length unit
   // 18px = 13.5pt (96 dpi)
   set text(size: 13.5pt)
+  set text(lang: lang, region: region)
 
   // rewrite some built-in functions to better support HTML output
   show h: h-func

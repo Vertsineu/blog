@@ -5,5 +5,5 @@ entrypoint = "lib.typ"
 authors = ["Vertsineu"]
 license = "MIT"
 description = "Some article templates for Hugo static site generator."
-repository = "https://github.com/Vertsineu/blog/tree/main/packages/local/hugo/0.1.0"
+repository = "https://github.com/Vertsineu/blog/tree/master/packages/hugo/templates/0.1.0"
 compiler = "0.13.1"
