@@ -31,7 +31,8 @@
   }
 
   // for relative length unit
-  set text(size: 18pt)
+  // 18px = 13.5pt (96 dpi)
+  set text(size: 13.5pt)
 
   // rewrite some built-in functions to better support HTML output
   show h: h-func
