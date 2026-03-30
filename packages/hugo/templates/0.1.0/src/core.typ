@@ -8,6 +8,7 @@
   date: datetime.today(),
   weight: 10,
   draft: false,
+  toc: true,
   body,
   ..args,
 ) = {
@@ -23,6 +24,8 @@
   show link: link-func
   show raw: raw-func
   show math.equation: math-equation-func
+  show outline: outline-func
+  show outline.entry: outline-entry-func
 
   /// label for cutting content
   show <->: it => it
@@ -62,5 +65,10 @@
   ))
 
   prelude
+
+  if toc {
+    outline(title: none)
+  }
+
   body
 }

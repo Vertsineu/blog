@@ -1,5 +1,15 @@
 #import "@hugo/utils:0.1.0": *
 
+#let outline-func(it) = {
+  html.div(
+    class: "toc",
+    style: "display: none",
+    collapsible([Table of Contents], it)
+  )
+}
+
+#let outline-entry-func = list.item
+
 #let h-func(it) = {
   let amount = it.amount.to-absolute().pt()
   html.span(
