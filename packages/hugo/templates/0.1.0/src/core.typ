@@ -72,9 +72,9 @@
   // label for frame
   show <frame>: frame
 
+  body
+
   if toc {
     outline(title: none)
   }
-
-  body
 }
