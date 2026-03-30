@@ -56,7 +56,7 @@
     return it
   }
 
-  let body = it.body
+  let body = align(center, it.body)
   let caption = align(center, it.caption)
   let output = if it.kind == table {
     caption
