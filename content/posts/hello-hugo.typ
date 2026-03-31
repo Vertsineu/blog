@@ -91,6 +91,19 @@ Blog 的源代码位于 #link("https://github.com/Vertsineu/blog")[github.com/Ve
 
 最后，尽情享受使用 Typst 编写 Hugo 博客的乐趣吧！如果你在使用过程中遇到了任何问题，欢迎在我的 Blog 的 GitHub 仓库中提交 issue，我会尽快回复的。
 
+注：如果你需要使用 tinymist 的话，还需要给 tinymist 配置额外参数才能产生正确的 LSP 解析结果，比如，在我使用 VSCode 的 tinymist，而我对 tinymist 的配置如下：
+
+```json
+{
+    "tinymist.exportPdf": "never",
+    "tinymist.rootPath": "${workspaceFolder}/content",
+    "tinymist.typstExtraArgs": [
+        "--package-path=./packages"
+    ],
+    "tinymist.exportTarget": "html"
+}
+```
+
 = 实现
 
 实现主要分为两个部分，一个是 Hugo 侧添加对 Typst 的支持，一个是 Typst 侧增强实验性 HTML 导出的功能。
