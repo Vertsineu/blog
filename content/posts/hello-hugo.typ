@@ -5,6 +5,34 @@
   title: "如何在 Hugo 中使用 Typst 编写文章",
   date: datetime(year: 2026, month: 3, day: 29),
   draft: false,
+  references: ```yml
+  typst-and-hugo:
+    type: Blog
+    title: "Typst and Hugo"
+    author: George Honeywood
+    date: 2023
+    url:
+      value: https://george.honeywood.org.uk/blog/typst-and-hugo/
+      date: 2026-03-29
+
+  typst-and-hugo-properly:
+    type: Blog
+    title: "Typst and Hugo Properly"
+    author: George Honeywood
+    date: 2023
+    url:
+      value: https://george.honeywood.org.uk/blog/typst-and-hugo-properly/
+      date: 2026-03-29
+  typst-reference:
+    type: Web
+    title: "Typst Documentation: Reference"
+    author: Typst Authors
+    publisher: Typst
+
+    url:
+      value: https://typst.app/docs/reference/
+      date: 2026-03-29
+  ```,
 )
 
 = 前言

@@ -5,10 +5,42 @@
   title: "计算机启动过程 —— 以 Arch Linux 安装过程为例",
   date: datetime(year: 2026, month: 3, day: 31),
   draft: false,
+  references: ```yml
+  grub-components-diagram:
+    type: Artwork
+    title: "GNU GRUB components"
+    author: Wikipedia contributors
+    date: 2013
+    url:
+      value: https://en.wikipedia.org/wiki/File:GNU_GRUB_components.svg
+      date: 2026-03-31
+    parent:
+      type: Web
+      title: "BIOS boot partition"
+      author: Wikipedia contributors
+      url: https://en.wikipedia.org/wiki/BIOS_boot_partition
+  windows-re-boot-menu:
+    type: Artwork
+    title: "Windows 11 Recovery Environment Boot menu"
+    author: Microsoft
+    date: 2021
+    publisher: Microsoft
+    url:
+      value: https://commons.wikimedia.org/wiki/File:Windows_11_RE_Boot_menu.png
+      date: 2026-03-31
+  arch-installation-guide:
+    type: Web
+    title: "Installation guide"
+    author: Arch Linux contributors
+    publisher: Arch Linux
+
+    url:
+      value: https://wiki.archlinux.org/title/Installation_guide
+      date: 2026-03-31
+  ```
 )
 
 #import "@preview/fletcher:0.5.8": diagram, node, edge
-#import "@preview/bytefield:0.0.8": *
 
 = 前言
 
@@ -92,7 +124,7 @@
 - 一台装有多个 Windows 系统的笔记本电脑：
   - Firmware：同上，基本上都是 UEFI 标准实现或者传统 BIOS 实现。
   - Bootloader：同上，但是引导加载程序可能是 Windows Boot Manager。
-    - 示例：
+    - 示例 @windows-re-boot-menu：
       #figure(
         caption: "Windows Boot Manager 启动界面",
         image("/posts/images/bootmgr.jpg")
@@ -188,7 +220,7 @@ Live System 就是我们所说的装在 U 盘上的微型系统。
 
 在传统的 BIOS 模式下，磁盘的分区信息存放在磁盘的第一个扇区，即 MBR（Master Boot Record，主引导记录）中，而 Bootloader 则分散存放在 MBR 中、MBR 后面的几个扇区以及某个分区中。
 
-为了方便讲解，我以 GNU GRUB 2 作为 Bootloader 时的磁盘地址空间来讲解，以下是通过 GRUB 引导的计算机的磁盘地址空间示意图：#footnote[图片来源：https://en.wikipedia.org/wiki/BIOS_boot_partition#/media/File:GNU_GRUB_components.svg]
+为了方便讲解，我以 GNU GRUB 2 作为 Bootloader 时的磁盘地址空间来讲解，以下是通过 GRUB 引导的计算机的磁盘地址空间示意图 @grub-components-diagram：
 
 #figure(
   caption: "GRUB 在 BIOS 模式下的磁盘地址空间",
@@ -237,7 +269,7 @@ Device     Boot     Start       End   Sectors   Size Id Type
 
 在 UEFI 模式下，磁盘的分区信息则存放在紧邻 MBR 后面的 GPT（GUID Partition Table，GUID 分区表）中，而 Bootloader 则存放在一个特殊的分区中，即 ESP（EFI System Partition，EFI 系统分区）中。
 
-同样，为了方便讲解，我以 GNU GRUB 2 作为 Bootloader 时的磁盘地址空间来讲解，以下是通过 GRUB 引导的计算机的磁盘地址空间示意图：#footnote[根据原图片进行修改：https://en.wikipedia.org/wiki/BIOS_boot_partition#/media/File:GNU_GRUB_components.svg]
+同样，为了方便讲解，我以 GNU GRUB 2 作为 Bootloader 时的磁盘地址空间来讲解，以下是通过 GRUB 引导的计算机的磁盘地址空间示意图 @grub-components-diagram：
 
 #figure(
   caption: "GRUB 在 UEFI 模式下的磁盘地址空间",
@@ -400,5 +432,3 @@ grub-mkconfig -o /boot/grub/grub.cfg
 以上就是本文的全部内容了，希望能够帮助你更好地理解计算机的启动过程，以及在安装系统时每个步骤背后的原理和细节。
 
 #strike[第一次写这种技术性的文章，感觉写得有点啰嗦了，而且有点缺乏章法，但毕竟是第一次写，希望以后能有所改进！]
-
-#hr()
