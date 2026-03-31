@@ -37,10 +37,10 @@
     url:
       value: https://wiki.archlinux.org/title/Installation_guide
       date: 2026-03-31
-  ```
+  ```,
 )
 
-#import "@preview/fletcher:0.5.8": diagram, node, edge
+#import "@preview/fletcher:0.5.8": diagram, edge, node
 
 = 前言
 
@@ -73,7 +73,7 @@
     edge("->", [Load Kernel], label-side: center),
     node((0, 3), "Kernel"),
     edge("->", "d", [Load System Services], label-side: center),
-  ))
+  )),
 )
 
 即 Firmware、Bootloader 和 Kernel 三个阶段，每个阶段都执行特定的功能，并且在完成后将控制权交给下一个阶段。它们的功能分别如下：
@@ -92,20 +92,20 @@
     - 示例：
       #figure(
         caption: "BIOS 设置界面",
-        image("/posts/images/bios.jpg")
+        image("/images/bios.jpg"),
       )
   - Bootloader：存放在磁盘的主引导记录（MBR）或者 EFI 系统分区（ESP）中，通常是 GRUB（GRand Unified Bootloader）或者 systemd-boot 等引导加载程序。当你在 Boot Menu 中选择的时候，实际上就是选择不同介质（Media）上的 Bootloader 来加载。
     - 如何查看：重启电脑，不需要按下任何键，在开机后自动会停留到 Bootloader 的界面。
     - 示例：
       #figure(
         caption: "GRUB 启动界面",
-        image("/posts/images/grub.jpg")
+        image("/images/grub.jpg"),
       )
   - Kernel：在 Linux 系统中，Kernel 通常存放在根文件系统的 /boot 目录下，通常以 vmlinuz 开头的文件。当你在 Bootloader 中选择的时候，实际上就是在选择不同的 Kernel 来加载。
     - 如何查看：在系统中打开终端，输入 `ls -hl /boot` 命令，查看 /boot 目录下的文件。
     - 示例：
       ```bash
-      $ ls -hl /boot                                                                         
+      $ ls -hl /boot
       total 410M
       -rw-r--r-- 1 root root 254K Jun 21  2024 config-6.1.0-22-amd64
       -rw-r--r-- 1 root root 277K Mar  9 03:54 config-6.12.74+deb13+1-amd64
@@ -127,7 +127,7 @@
     - 示例 @windows-re-boot-menu：
       #figure(
         caption: "Windows Boot Manager 启动界面",
-        image("/posts/images/bootmgr.jpg")
+        image("/images/bootmgr.jpg"),
       )
   - Kernel：同上，但是内核文件可能是 ntoskrnl.exe，而不是 vmlinuz 文件。
 
@@ -157,7 +157,7 @@
 
 #figure(
   caption: "Ventoy 界面",
-  image("/posts/images/ventoy-install.png")
+  image("/images/ventoy-install.png"),
 )
 
 选择你的 U 盘，点击安装（Install）按钮，然后把 ISO 镜像文件直接丢进 U 盘里就可以了，非常方便。
@@ -174,28 +174,28 @@ Live System 就是我们所说的装在 U 盘上的微型系统。
 
 #figure(
   caption: "Startup Interrupt Menu",
-  image("/posts/images/startup-menu.jpg")
+  image("/images/startup-menu.jpg"),
 )
 
 根据提示，按下 F12 键进入 Boot Menu：
 
 #figure(
   caption: "Boot Menu",
-  image("/posts/images/boot-menu.jpg")
+  image("/images/boot-menu.jpg"),
 )
 
 然后使用上下键切换到 USB HDD 选项，按下 Enter 键就可以进入 Ventoy 的界面了：
 
 #figure(
   caption: "Ventoy 启动界面",
-  image("/posts/images/ventoy-boot.jpg")
+  image("/images/ventoy-boot.jpg"),
 )
 
 接着，选择你要安装的系统的 ISO 镜像文件，一路按 Enter 键就可以进入 Live System 了：
 
 #figure(
   caption: "Live System 桌面",
-  image("/posts/images/archiso.png")
+  image("/images/archiso.png"),
 )
 
 从计算机启动过程的视角来看，这一部分完整地从 U 盘中启动了一个系统，因此完全运行了我们之前所说的 Firmware、Bootloader 和 Kernel 三个阶段的功能：
@@ -224,7 +224,7 @@ Live System 就是我们所说的装在 U 盘上的微型系统。
 
 #figure(
   caption: "GRUB 在 BIOS 模式下的磁盘地址空间",
-  image("/posts/images/grub-bios.jpg")
+  image("/images/grub-bios.jpg"),
 )
 
 - Example 1: MBR 部分存放了 GRUB 的第一组成部分 —— `boot.img`，然后 `boot.img` 在执行时会把位于 MBR 后面几个扇区的 `core.img` 加载进内存并跳转执行，而 `core.img` 则作为 GRUB 的第二组成成分，从后面的分区（图中为 `/dev/sda2` 分区）中可选的加载其他 GRUB 模块，从而完成 GRUB 作为 Bootloader 的完整功能。
@@ -240,7 +240,7 @@ Live System 就是我们所说的装在 U 盘上的微型系统。
     [Mount Point], [Partition], [Partition Type], [Suggested Size],
     [[swap]], [/dev/sda1], [Linux swap], [建议和内存大小相同],
     [/], [/dev/sda2], [Linux File System], [设备剩余部分],
-  )
+  ),
 )
 
 需要注意的是，在使用 fdisk 进行分区时，磁盘的前 2048 个扇区（即前 1 MiB）通常会保留从而禁止被分配空间，这是因为 GRUB 的 `boot.img` 和 `core.img` 都需要存放在这里。你可以通过 `fdisk -l` 指令查看最终分区情况，比如在我装有 GNU/Linux Debian 系统的采用传统 BIOS 方案的设备上，输出情况如下所示：
@@ -273,7 +273,7 @@ Device     Boot     Start       End   Sectors   Size Id Type
 
 #figure(
   caption: "GRUB 在 UEFI 模式下的磁盘地址空间",
-  image("/posts/images/grub-uefi.jpg")
+  image("/images/grub-uefi.jpg"),
 )
 
 - Example 1: MBR 部分放置了 Protective MBR（保护性 MBR），它的作用是为了兼容旧的 BIOS 系统，防止 BIOS 系统误认为磁盘没有分区而进行错误的操作（在 BIOS 看来，这块磁盘就是一个全占满数据的磁盘）。GPT 分区表则存放在紧邻 MBR 后面的几个扇区中，而 GRUB 则把 bootx64.efi 等 EFI 可执行文件放在 ESP 分区中，在执行时由 UEFI 直接加载 bootx64.efi 文件来启动 GRUB。
@@ -290,7 +290,7 @@ Device     Boot     Start       End   Sectors   Size Id Type
     [/boot], [/dev/sda1], [EFI System], [1 GiB],
     [[swap]], [/dev/sda2], [Linux swap], [建议和内存大小相同],
     [/], [/dev/sda3], [Linux File System], [设备剩余部分],
-  )
+  ),
 )
 
 EFI 分区我的建议是大一点比较好，比如 1 GiB 就足够了，因为如果你之后想装双系统，或者多内核，其他系统的 Bootloader 和各个版本的 Kernel 文件也需要放在这个分区，如果分区太小了，只能通过缩减 swap 分区来给 ESP 分区腾出空间了，#strike[强迫症要难受死了]。
@@ -298,9 +298,9 @@ EFI 分区我的建议是大一点比较好，比如 1 GiB 就足够了，因为
 比如在我的装有 Arch Linux 系统的采用 UEFI 方案的设备上，`fdisk -l` 输出情况如下所示：
 
 ```bash
-$ fdisk -l    
+$ fdisk -l
 Disk /dev/nvme1n1: 953.87 GiB, 1024209543168 bytes, 2000409264 sectors
-Disk model: SAMSUNG MZVL21T0HCLR-00BL2              
+Disk model: SAMSUNG MZVL21T0HCLR-00BL2
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
