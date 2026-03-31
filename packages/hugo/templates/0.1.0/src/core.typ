@@ -2,15 +2,20 @@
 #import "@hugo/rewrites:0.1.0": *
 
 #let article(
+  // metadata
   title: "",
   description: "",
   tags: (),
   date: datetime.today(),
   weight: 10,
   draft: false,
+  // outline(title: none)
   toc: true,
+  // set text(lang: lang, region: region)
   lang: "zh",
   region: "cn",
+  // bibliography(bytes(references.text), full: true)
+  references: none,
   body,
   ..args,
 ) = {
@@ -81,5 +86,9 @@
 
   if toc {
     outline(title: none)
+  }
+
+  if references != none {
+    bibliography(bytes(references.text), full: true)
   }
 }
