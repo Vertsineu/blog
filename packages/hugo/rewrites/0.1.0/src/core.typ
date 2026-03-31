@@ -76,6 +76,7 @@
   let columns = it.columns.len()
   let align = it.align
   let entries = it.children.map(c => c.body)
+  let default-align = to-alignment(left + top)
 
   let rows = int((entries.len() + columns - 1) / columns)
   let aligns = if type(align) == alignment {
@@ -83,11 +84,13 @@
   } else if type(align) == array {
     // fill in last alignment if not enough
     if align.len() < columns {
-      let last = to-alignment(align.last(default: left + top))
+      let last = to-alignment(align.last(default: default-align))
       (align.map(a => to-alignment(a)) + (last,) * columns).slice(0, columns)
     } else {
       align.map(a => to-alignment(a)).slice(0, columns)
     }
+  } else if align == none or align == auto {
+    ((default-align,) * columns)
   } else {
     panic("Unsupported alignment type, please use a valid alignment or a list of alignments!")
   }
@@ -99,7 +102,7 @@
           let index = i * columns + j
           let cell-func = if i == 0 { html.th } else { html.td }
           if index < entries.len() {
-            let (x-align, y-align) = aligns.at(j, default: (to-alignment(left + top)))
+            let (x-align, y-align) = aligns.at(j, default: default-align)
             cell-func(
               style: "text-align: " + x-align + "; vertical-align: " + y-align + ";",
               entries.at(index),
