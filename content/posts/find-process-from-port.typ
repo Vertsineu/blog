@@ -3,7 +3,7 @@
 
 #show: article.with(
   title: "记一次在 Linux 中根据端口号查找进程的经历",
-  date: datetime.today(),
+  date: datetime(year: 2026, month: 4, day: 4),
   draft: false,
 )
 
