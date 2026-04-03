@@ -1,5 +1,6 @@
 baseURL = 'https://blog.vertsineu.top/'
 locale = 'en-us'
+timeZone = 'Asia/Shanghai'
 title = "Vertsineu's Blog"
 theme = 'PaperMod'
 
