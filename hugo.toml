@@ -40,12 +40,6 @@ enabled = true
 timeout = "3s"
 
 [[menu.main]]
-identifier = "posts"
-name = "Posts"
-url = "/posts/"
-weight = 10
-
-[[menu.main]]
 identifier = "archives"
 name = "Archive"
 url = "/archives/"
