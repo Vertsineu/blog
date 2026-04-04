@@ -4,6 +4,11 @@
 #show: article.with(
   title: "计算机启动过程 —— 以 Arch Linux 安装过程为例",
   date: datetime(year: 2026, month: 3, day: 31),
+  tags: (
+    platforms: "linux",
+    domains: "architecture",
+    intents: "introduction",
+  ),
   draft: false,
   references: ```yml
   grub-components-diagram:

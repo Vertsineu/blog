@@ -4,6 +4,11 @@
 #show: article.with(
   title: "记一次在 Linux 中根据端口号查找进程的经历",
   date: datetime(year: 2026, month: 4, day: 4),
+  tags: (
+    platforms: ("linux", "nginx", "kubernetes", "iptables"),
+    domains: "networking",
+    intents: "troubleshooting",
+  ),
   draft: false,
 )
 
@@ -96,27 +101,27 @@ iptables -L -t nat
 $ iptables -L -t nat
 iptables -L -t nat | head -n 40
 Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination         
+target     prot opt source               destination
 cali-PREROUTING  all  --  anywhere             anywhere             /* cali:6gwbT8clXdHdC1b1 */
 KUBE-SERVICES  all  --  anywhere             anywhere             /* kubernetes service portals */
 DOCKER     all  --  anywhere             anywhere             ADDRTYPE match dst-type LOCAL
 
 Chain INPUT (policy ACCEPT)
-target     prot opt source               destination         
+target     prot opt source               destination
 
 Chain OUTPUT (policy ACCEPT)
-target     prot opt source               destination         
+target     prot opt source               destination
 cali-OUTPUT  all  --  anywhere             anywhere             /* cali:tVnHkvAo15HuiPy0 */
 KUBE-SERVICES  all  --  anywhere             anywhere             /* kubernetes service portals */
 DOCKER     all  --  anywhere            !127.0.0.0/8          ADDRTYPE match dst-type LOCAL
 
 Chain POSTROUTING (policy ACCEPT)
-target     prot opt source               destination         
+target     prot opt source               destination
 cali-POSTROUTING  all  --  anywhere             anywhere             /* cali:O3lYWMrLQYEMJtB5 */
-MASQUERADE  all  --  172.18.0.0/16        anywhere            
+MASQUERADE  all  --  172.18.0.0/16        anywhere
 KUBE-POSTROUTING  all  --  anywhere             anywhere             /* kubernetes postrouting rules */
-MASQUERADE  all  --  172.17.0.0/16        anywhere            
-LIBVIRT_PRT  all  --  anywhere             anywhere            
+MASQUERADE  all  --  172.17.0.0/16        anywhere
+LIBVIRT_PRT  all  --  anywhere             anywhere
 MASQUERADE  tcp  --  172.18.0.2           172.18.0.2           tcp dpt:10514
 MASQUERADE  tcp  --  172.18.0.9           172.18.0.9           tcp dpt:webcache
 
@@ -186,17 +191,17 @@ heros-portal-console   NodePort   10.96.75.57   <none>        5443:30008/TCP   3
 ```bash
 $ iptables -L -t nat | grep -E ':80$' -B 3
 Chain KUBE-SEP-3J3BPC5JPSIBHQN4 (1 references)
-target     prot opt source               destination         
+target     prot opt source               destination
 KUBE-MARK-MASQ  all  --  10.244.209.252       anywhere             /* basic-component/model-repository:http */
 DNAT       tcp  --  anywhere             anywhere             /* basic-component/model-repository:http */ tcp to:10.244.209.252:80
 --
 Chain KUBE-SEP-437TZ5GT227FODOU (1 references)
-target     prot opt source               destination         
+target     prot opt source               destination
 KUBE-MARK-MASQ  all  --  10.244.74.240        anywhere             /* ingress-nginx/ingress-nginx-controller:http */
 DNAT       tcp  --  anywhere             anywhere             /* ingress-nginx/ingress-nginx-controller:http */ tcp to:10.244.74.240:80
 --
 Chain KUBE-SEP-YNA7BKMCGAZVRJ7T (1 references)
-target     prot opt source               destination         
+target     prot opt source               destination
 KUBE-MARK-MASQ  all  --  10.244.74.246        anywhere             /* hero-system/volume-controller:http */
 DNAT       tcp  --  anywhere             anywhere             /* hero-system/volume-controller:http */ tcp to:10.244.74.246:80
 ```
@@ -205,19 +210,19 @@ DNAT       tcp  --  anywhere             anywhere             /* hero-system/vol
 
 ```txt
 Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination 
+target     prot opt source               destination
 KUBE-SERVICES  all  --  anywhere             anywhere             /* kubernetes service portals */
 
 Chain KUBE-SERVICES (2 references)
-target     prot opt source               destination 
+target     prot opt source               destination
 KUBE-NODEPORTS  all  --  anywhere             anywhere             /* kubernetes service nodeports; NOTE: this must be the last rule in this chain */ ADDRTYPE match dst-type LOCAL
 
 Chain KUBE-NODEPORTS (1 references)
-target     prot opt source               destination 
+target     prot opt source               destination
 KUBE-EXT-CG5I4G2RS3ZVWGLK  tcp  --  anywhere             anywhere             /* ingress-nginx/ingress-nginx-controller:http */ tcp dpt:http
 
 Chain KUBE-EXT-CG5I4G2RS3ZVWGLK (1 references)
-target     prot opt source               destination 
+target     prot opt source               destination
 KUBE-SVC-CG5I4G2RS3ZVWGLK  all  --  anywhere             anywhere
 
 Chain KUBE-SVC-CG5I4G2RS3ZVWGLK (2 references)

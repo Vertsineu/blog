@@ -4,6 +4,11 @@
 #show: article.with(
   title: "如何在 Hugo 中使用 Typst 编写文章",
   date: datetime(year: 2026, month: 3, day: 29),
+  tags: (
+    platforms: ("hugo", "typst"),
+    domains: "architecture",
+    intents: ("introduction", "enhancement"),
+  ),
   draft: false,
   references: ```yml
   typst-and-hugo:

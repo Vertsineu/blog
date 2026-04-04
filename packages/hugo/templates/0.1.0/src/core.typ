@@ -5,7 +5,7 @@
   // metadata
   title: "",
   description: "",
-  tags: (),
+  tags: (:),
   date: datetime.today(),
   weight: 10,
   draft: false,
@@ -22,7 +22,7 @@
   let prelude = metadata((
     title: title,
     description: description,
-    tags: tags,
+    tags: tags.values().map(ts => (ts,)).flatten(),
     date: date.display("[year]-[month]-[day]"),
     weight: weight,
     draft: draft,
