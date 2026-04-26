@@ -179,3 +179,9 @@ docker run --rm curlimages/curl curl -v https://www.google.com
 ```
 
 正常访问，并且 mihomo 的日志中也正确记录了这次访问，说明透明代理配置成功了。
+
+= 缺陷
+
+过了几天，在我给服务器装 Kubernetes 的时候，我发现了给 Docker 配置透明代理的一个缺陷，那就是它的 iptables 规则会和 Kubernetes 的 iptables 规则冲突，导致容器内无法正常访问网络。
+
+目前我并没有找到什么好的解决方法，我只能避免在同一台服务器上同时使用 Docker 和 Kubernetes，好在，在这台服务器上我只需要使用 Docker 也能满足我的日常需求，所以这个缺陷对我来说并不算是个大问题。
