@@ -55,6 +55,12 @@
   show outline.entry: outline-entry-func
   show image: image-func
 
+  // add parbreak for all block elements to have margin below them
+  show list: fake-par-func
+  show enum: fake-par-func
+  show figure: fake-par-func
+  show math.equation.where(block: true): fake-par-func
+
   /// label for cutting content
   show <->: it => it
 

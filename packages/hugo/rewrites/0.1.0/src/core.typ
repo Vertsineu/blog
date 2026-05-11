@@ -175,3 +175,11 @@
 
   html.img(src: src, alt: alt, loading: "lazy")
 }
+
+#let fake-par-func(it) = it + context {
+  if target() != "html" {
+    return context empty-par + v(-measure(empty-par + empty-par).height)
+  }
+
+  html.p()
+}
