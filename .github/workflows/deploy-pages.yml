@@ -49,8 +49,9 @@ jobs:
 
           hugo version
 
-      - name: Setup Typst
-        uses: typst-community/setup-typst@v5
+      - name: Install Typst from source
+        run: |
+          cargo install --git https://github.com/typst/typst --rev 7894caf5e5b9ef1cc79573ade9dce6677644d215 --locked typst-cli
 
       - name: Check Typst version
         run: |
