@@ -56,8 +56,8 @@
   show image: image-func
 
   // add parbreak for all block elements to have margin below them
-  show list: fake-par-func
-  show enum: fake-par-func
+  show list: fake-par-func.with(must: false)
+  show enum: fake-par-func.with(must: false)
   show figure: fake-par-func
   show math.equation.where(block: true): fake-par-func
 

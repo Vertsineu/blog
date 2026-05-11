@@ -176,12 +176,20 @@
   html.img(src: src, alt: alt, loading: "lazy")
 }
 
-#let fake-par-func(it) = it + context {
+#let fake-par-func(it, must: true) = context {
   if target() != "html" {
     let empty-par = par[#box()]
     let fake-par = empty-par + v(-measure(empty-par + empty-par).height)
-    return fake-par
+    return it + fake-par
   }
 
-  html.p()
+  let fake-par = if must {
+    html.p(class: "typst-parbreak")
+  } else {
+    html.p()
+  }
+
+  fake-par
+  it
+  fake-par
 }
