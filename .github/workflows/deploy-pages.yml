@@ -18,6 +18,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TOOLCHAIN_RELEASE_TAG: blog-toolchain-linux-amd64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,35 +29,31 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25.x'
-
-      - name: Install custom Hugo from source
+      - name: Install prebuilt Hugo and Typst
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 
-          echo "Installing Hugo from Vertsineu/hugo@support-typst"
-          git clone --depth 1 --branch "support-typst" "https://github.com/Vertsineu/hugo.git" /tmp/custom-hugo
+          mkdir -p "$RUNNER_TEMP/blog-toolchain"
+          gh release download "$TOOLCHAIN_RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "hugo-linux-amd64.tar.gz" \
+            --pattern "typst-linux-amd64.tar.gz" \
+            --pattern "SHA256SUMS" \
+            --dir "$RUNNER_TEMP/blog-toolchain"
 
-          cd /tmp/custom-hugo
-          # Hugo docs: extended build from source uses CGO_ENABLED=1 and -tags extended.
-          CGO_ENABLED=1 go install -tags extended .
+          cd "$RUNNER_TEMP/blog-toolchain"
+          grep -E ' (hugo|typst)-linux-amd64\.tar\.gz$' SHA256SUMS | sha256sum -c -
 
-          export PATH="$HOME/go/bin:$PATH"
-          echo "$HOME/go/bin" >> "$GITHUB_PATH"
+          tar -xzf "$RUNNER_TEMP/blog-toolchain/hugo-linux-amd64.tar.gz" -C "$RUNNER_TEMP/blog-toolchain"
+          tar -xzf "$RUNNER_TEMP/blog-toolchain/typst-linux-amd64.tar.gz" -C "$RUNNER_TEMP/blog-toolchain"
 
-          hugo version
+          echo "$RUNNER_TEMP/blog-toolchain/bin" >> "$GITHUB_PATH"
 
-      - name: Install Typst from source
-        run: |
-          cargo install --git https://github.com/typst/typst --rev 7894caf5e5b9ef1cc79573ade9dce6677644d215 --locked typst-cli
-
-      - name: Check Typst version
-        run: |
-          typst --version
+          "$RUNNER_TEMP/blog-toolchain/bin/hugo" version
+          "$RUNNER_TEMP/blog-toolchain/bin/typst" --version
 
       - name: Build site
         run: |

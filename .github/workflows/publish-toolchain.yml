@@ -1,0 +1,104 @@
+name: Publish Toolchain
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release tag that stores the prebuilt tools.
+        required: true
+        default: blog-toolchain-linux-amd64
+      hugo_ref:
+        description: Vertsineu/hugo branch, tag, or ref to build.
+        required: true
+        default: support-typst
+      typst_rev:
+        description: typst/typst commit to build.
+        required: true
+        default: 7894caf5e5b9ef1cc79573ade9dce6677644d215
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux-amd64:
+    name: Build Linux amd64 toolchain
+    runs-on: ubuntu-22.04
+    env:
+      HUGO_REF: ${{ inputs.hugo_ref }}
+      RELEASE_TAG: ${{ inputs.release_tag }}
+      TYPST_REV: ${{ inputs.typst_rev }}
+    steps:
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+
+      - name: Setup Rust
+        shell: bash
+        run: |
+          set -euo pipefail
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
+      - name: Build Hugo
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git clone --depth 1 --branch "$HUGO_REF" "https://github.com/Vertsineu/hugo.git" "$RUNNER_TEMP/custom-hugo"
+          cd "$RUNNER_TEMP/custom-hugo"
+
+          mkdir -p "$RUNNER_TEMP/toolchain/bin"
+          CGO_ENABLED=1 go build -tags extended -trimpath -ldflags="-s -w" -o "$RUNNER_TEMP/toolchain/bin/hugo" .
+          "$RUNNER_TEMP/toolchain/bin/hugo" version
+
+      - name: Build Typst
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cargo install --git https://github.com/typst/typst --rev "$TYPST_REV" --locked typst-cli --root "$RUNNER_TEMP/typst-root"
+
+          mkdir -p "$RUNNER_TEMP/toolchain/bin"
+          install -m 0755 "$RUNNER_TEMP/typst-root/bin/typst" "$RUNNER_TEMP/toolchain/bin/typst"
+          "$RUNNER_TEMP/toolchain/bin/typst" --version
+
+      - name: Package release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p dist/hugo-linux-amd64/bin dist/typst-linux-amd64/bin
+          cp "$RUNNER_TEMP/toolchain/bin/hugo" dist/hugo-linux-amd64/bin/
+          cp "$RUNNER_TEMP/toolchain/bin/typst" dist/typst-linux-amd64/bin/
+
+          tar -C dist/hugo-linux-amd64 -czf dist/hugo-linux-amd64.tar.gz bin/hugo
+          tar -C dist/typst-linux-amd64 -czf dist/typst-linux-amd64.tar.gz bin/typst
+
+          {
+            echo "release_tag=$RELEASE_TAG"
+            echo "hugo_repo=https://github.com/Vertsineu/hugo"
+            echo "hugo_ref=$HUGO_REF"
+            echo "typst_repo=https://github.com/typst/typst"
+            echo "typst_rev=$TYPST_REV"
+            echo "built_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo
+            "$RUNNER_TEMP/toolchain/bin/hugo" version
+            "$RUNNER_TEMP/toolchain/bin/typst" --version
+          } > dist/manifest.txt
+
+          cd dist
+          sha256sum hugo-linux-amd64.tar.gz typst-linux-amd64.tar.gz manifest.txt > SHA256SUMS
+
+      - name: Upload release assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" dist/hugo-linux-amd64.tar.gz dist/typst-linux-amd64.tar.gz dist/manifest.txt dist/SHA256SUMS --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$RELEASE_TAG" dist/hugo-linux-amd64.tar.gz dist/typst-linux-amd64.tar.gz dist/manifest.txt dist/SHA256SUMS --repo "$GITHUB_REPOSITORY" --title "Blog toolchain ($RELEASE_TAG)" --notes "Prebuilt Hugo and Typst binaries for the blog deployment workflow."
+          fi
