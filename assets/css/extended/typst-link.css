@@ -2,4 +2,11 @@
 .post-content a[href] {
   box-shadow: none !important;
   text-decoration: none !important;
+  text-underline-offset: auto !important;
+  text-decoration-thickness: from-font;
+}
+
+.post-content a[href] span[style*="text-decoration: underline"] {
+  text-underline-offset: auto !important;
+  text-decoration-thickness: from-font;
 }
