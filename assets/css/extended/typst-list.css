@@ -1,0 +1,8 @@
+/* Remove paragraph spacing introduced when Typst list items contain nested blocks. */
+.md-content li > p {
+    margin-block: 0;
+}
+
+.md-content li > p:not(:last-child) {
+    margin-block: 0;
+}
