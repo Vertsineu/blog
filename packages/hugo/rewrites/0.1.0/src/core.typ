@@ -178,7 +178,9 @@
 
 #let fake-par-func(it) = it + context {
   if target() != "html" {
-    return context empty-par + v(-measure(empty-par + empty-par).height)
+    let empty-par = par[#box()]
+    let fake-par = empty-par + v(-measure(empty-par + empty-par).height)
+    return fake-par
   }
 
   html.p()
