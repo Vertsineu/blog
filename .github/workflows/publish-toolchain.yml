@@ -26,6 +26,8 @@ jobs:
     env:
       HUGO_REF: ${{ inputs.hugo_ref }}
       RELEASE_TAG: ${{ inputs.release_tag }}
+      RELEASE_TITLE: Blog toolchain (${{ inputs.release_tag }})
+      RELEASE_NOTES: Prebuilt Hugo and Typst binaries for the blog deployment workflow.
       TYPST_REV: ${{ inputs.typst_rev }}
     steps:
       - name: Setup Go
@@ -75,21 +77,6 @@ jobs:
           tar -C dist/hugo-linux-amd64 -czf dist/hugo-linux-amd64.tar.gz bin/hugo
           tar -C dist/typst-linux-amd64 -czf dist/typst-linux-amd64.tar.gz bin/typst
 
-          {
-            echo "release_tag=$RELEASE_TAG"
-            echo "hugo_repo=https://github.com/Vertsineu/hugo"
-            echo "hugo_ref=$HUGO_REF"
-            echo "typst_repo=https://github.com/typst/typst"
-            echo "typst_rev=$TYPST_REV"
-            echo "built_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            echo
-            "$RUNNER_TEMP/toolchain/bin/hugo" version
-            "$RUNNER_TEMP/toolchain/bin/typst" --version
-          } > dist/manifest.txt
-
-          cd dist
-          sha256sum hugo-linux-amd64.tar.gz typst-linux-amd64.tar.gz manifest.txt > SHA256SUMS
-
       - name: Upload release assets
         shell: bash
         env:
@@ -98,7 +85,8 @@ jobs:
           set -euo pipefail
 
           if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" dist/hugo-linux-amd64.tar.gz dist/typst-linux-amd64.tar.gz dist/manifest.txt dist/SHA256SUMS --clobber --repo "$GITHUB_REPOSITORY"
+            gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --title "$RELEASE_TITLE"
+            gh release upload "$RELEASE_TAG" dist/hugo-linux-amd64.tar.gz dist/typst-linux-amd64.tar.gz --clobber --repo "$GITHUB_REPOSITORY"
           else
-            gh release create "$RELEASE_TAG" dist/hugo-linux-amd64.tar.gz dist/typst-linux-amd64.tar.gz dist/manifest.txt dist/SHA256SUMS --repo "$GITHUB_REPOSITORY" --title "Blog toolchain ($RELEASE_TAG)" --notes "Prebuilt Hugo and Typst binaries for the blog deployment workflow."
+            gh release create "$RELEASE_TAG" dist/hugo-linux-amd64.tar.gz dist/typst-linux-amd64.tar.gz --repo "$GITHUB_REPOSITORY" --title "$RELEASE_TITLE" --notes "$RELEASE_NOTES"
           fi

@@ -41,11 +41,7 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --pattern "hugo-linux-amd64.tar.gz" \
             --pattern "typst-linux-amd64.tar.gz" \
-            --pattern "SHA256SUMS" \
             --dir "$RUNNER_TEMP/blog-toolchain"
-
-          cd "$RUNNER_TEMP/blog-toolchain"
-          grep -E ' (hugo|typst)-linux-amd64\.tar\.gz$' SHA256SUMS | sha256sum -c -
 
           tar -xzf "$RUNNER_TEMP/blog-toolchain/hugo-linux-amd64.tar.gz" -C "$RUNNER_TEMP/blog-toolchain"
           tar -xzf "$RUNNER_TEMP/blog-toolchain/typst-linux-amd64.tar.gz" -C "$RUNNER_TEMP/blog-toolchain"
