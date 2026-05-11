@@ -11,10 +11,10 @@ on:
         description: Vertsineu/hugo branch, tag, or ref to build.
         required: true
         default: support-typst
-      typst_rev:
-        description: typst/typst commit to build.
+      typst_version:
+        description: typst-cli release version to install.
         required: true
-        default: 7894caf5e5b9ef1cc79573ade9dce6677644d215
+        default: '0.14.2'
 
 permissions:
   contents: write
@@ -28,7 +28,7 @@ jobs:
       RELEASE_TAG: ${{ inputs.release_tag }}
       RELEASE_TITLE: Blog toolchain (${{ inputs.release_tag }})
       RELEASE_NOTES: Prebuilt Hugo and Typst binaries for the blog deployment workflow.
-      TYPST_REV: ${{ inputs.typst_rev }}
+      TYPST_VERSION: ${{ inputs.typst_version }}
     steps:
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -59,7 +59,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          cargo install --git https://github.com/typst/typst --rev "$TYPST_REV" --locked typst-cli --root "$RUNNER_TEMP/typst-root"
+          cargo install typst-cli --version "$TYPST_VERSION" --locked --root "$RUNNER_TEMP/typst-root"
 
           mkdir -p "$RUNNER_TEMP/toolchain/bin"
           install -m 0755 "$RUNNER_TEMP/typst-root/bin/typst" "$RUNNER_TEMP/toolchain/bin/typst"
