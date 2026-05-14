@@ -95,6 +95,7 @@ DOCKER_CIDR=172.16.0.0/12
 TPROXY_PORT=7893
 
 ip rule add fwmark $MARK table $TABLE priority 100 2>/dev/null || true
+ip route add throw $DOCKER_CIDR table $TABLE 2>/dev/null || true
 ip route add local default dev lo table $TABLE 2>/dev/null || true
 
 iptables -t mangle -N $CHAIN 2>/dev/null || iptables -t mangle -F $CHAIN
@@ -132,6 +133,7 @@ iptables -t mangle -X $CHAIN 2>/dev/null || true
 
 ip rule del fwmark $MARK table $TABLE 2>/dev/null || true
 ip route del local default dev lo table $TABLE 2>/dev/null || true
+ip route del throw $DOCKER_CIDR table $TABLE 2>/dev/null || true
 ```
 
 最后，我编写一个 `mihomo-tproxy.service` 来管理这个透明代理，并和 mihomo 的生命周期绑定在一起：
