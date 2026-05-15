@@ -56,7 +56,9 @@
 
 核心的配置如下所示：
 
-```nginx
+```conf
+### /etc/nginx/nginx.conf
+# ...
 stream {
     map $ssl_preread_server_name $backend_443 {
         aaa.vertsineu.top  100.xxx.xxx.xxx:443;
@@ -77,6 +79,7 @@ stream {
         ssl_preread on;
     }
 }
+# ...
 ```
 
 其中，我没有使用 http 反代，而是使用 stream 模块进行端口转发，这样在面对比如 websocket 这种协议时就不需要额外的配置了，直接交给后端的服务来处理就好了。
@@ -84,7 +87,8 @@ stream {
 
 最后，在宿舍和 Vlab 上的 Nginx 中，我采用一个固定的模板将 Docker 容器中的服务反代出来：
 
-```nginx
+```conf
+### /etc/nginx/sites-available/template.conf
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -114,7 +118,37 @@ server {
 
 这样每次部署一个新的服务时，我只需要在 Docker 中启动服务，并且将端口映射到宿舍或者 Vlab 上的某个固定端口，然后在 Nginx 中添加一个 server 配置，指向这个端口就好了，非常方便。
 
-其中，关于 ssl 的配置，我使用 #link("https://acme.sh")[acme.sh] 来自动申请和更新证书，并将证书和私钥放在 `/etc/ssl/certs` 和 `/etc/ssl/private` 目录下，然后在 Nginx 的配置中通过固定的 snippets 来引入证书和相关的参数，这样就实现了自动化的证书管理。
+其中，关于 ssl 的配置，我使用 #link("https://acme.sh")[acme.sh] 来自动申请和更新证书，并将证书和私钥放在 `/etc/ssl/certs` 和 `/etc/ssl/private` 目录下，然后在 Nginx 的配置中通过固定的 snippets 来引入证书和相关的参数，这样就实现了自动化的证书管理：
+
+```conf
+### /etc/nginx/snippets/ssl-certificates.conf
+ssl_certificate /etc/ssl/certs/vertsineu.top.crt;
+ssl_certificate_key /etc/ssl/private/vertsineu.top.key;
+```
+
+```conf
+### /etc/nginx/snippets/ssl-params.conf
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_prefer_server_ciphers on;
+ssl_dhparam /etc/nginx/dhparam.pem; 
+# ssl_ciphers EECDH+AESGCM:EDH+AESGCM;
+# ssl_ecdh_curve secp384r1;
+ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384';
+ssl_ecdh_curve X25519:secp384r1;
+ssl_session_timeout  10m;
+ssl_session_cache shared:SSL:10m;
+ssl_session_tickets off;
+# ssl_stapling on;
+# ssl_stapling_verify on;
+# resolver 8.8.8.8 8.8.4.4 valid=300s;
+# resolver_timeout 5s;
+# Disable strict transport security for now. You can uncomment the following
+# line if you understand the implications.
+#add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+add_header X-Frame-Options DENY;
+add_header X-Content-Type-Options nosniff;
+add_header X-XSS-Protection "1; mode=block";
+```
 
 = 后记
 

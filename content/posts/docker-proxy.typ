@@ -84,7 +84,7 @@ sniffer:
 iptables 需要标记所有来自 bridge 网段的流量，但是忽略所有去往本机/局域网地址的流量，而对于被标记的流量，我们需要对其单独配置路由表，从而防止内核在路由时转发到外部网卡，而是保留到本机处理，因此，iptables 的配置如下所示：
 
 ```bash
-# /etc/mihomo-tproxy/setup.sh
+### /etc/mihomo-tproxy/setup.sh
 #!/bin/bash
 set -e
 
@@ -118,7 +118,7 @@ iptables -t mangle -A PREROUTING -s $DOCKER_CIDR -j $CHAIN
 为了保证可维护性，我还编写了一个脚本来删除这些 iptables 规则，以便在代理崩溃退出后能够及时清理规则，恢复网络：
 
 ```bash
-# /etc/mihomo-tproxy/teardown.sh
+### /etc/mihomo-tproxy/teardown.sh
 #!/bin/bash
 
 TABLE=100

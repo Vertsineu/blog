@@ -389,7 +389,7 @@ e_rpf:
 因此，一个地址是否是本地地址，实际上取决于查询路由表时是否能查到该 IP 的类型是 `RTN_LOCAL`，这时回看之前设置透明代理的脚本：
 
 ```bash
-# /etc/mihomo-tproxy/setup.sh
+### /etc/mihomo-tproxy/setup.sh
 #!/bin/bash
 set -e
 
