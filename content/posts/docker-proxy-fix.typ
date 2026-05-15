@@ -44,7 +44,7 @@ $ docker run --rm curlimages/curl curl -v https://chatgpt.com
 
 由于 iptables 相关的我也不是很熟，于是我就交给了 claude 和 gpt 来帮我排查一下，但是一排查不要紧，排查了一整天还走了点弯路才真正找到问题的根源。
 
-== 调研现象
+== 调研
 
 "没有调研就没有发言权"，在提出任何可能的猜想前，先进行一番细致的调研总是非常必要的。
 
