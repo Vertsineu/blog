@@ -14,7 +14,7 @@
 
 = 前言
 
-昨天早上起来，本想着使用 codex 给我分析一下 Nginx 最新的 CVE 的原理，结果发现，我的中转站一直在超时，于是我检查了一下反代号，发现额度更新刷不出来了，心想，又一次，代理掉了，一般来说只是因为梯子不稳而已，并不少见。
+昨天早上起来，本想着使用 codex 给我分析一下 nginx 最新的 CVE 的原理，结果发现，我的中转站一直在超时，于是我检查了一下反代号，发现额度更新刷不出来了，心想，又一次，代理掉了，一般来说只是因为梯子不稳而已，并不少见。
 
 于是我连上服务器测试一下，发现走 http(s)\_proxy 的代理都好好的，但是 Docker 里的 http(s) 请求却一直卡住，超时，才发现，我的 Docker 透明代理挂了。
 
@@ -53,11 +53,11 @@ $ docker run --rm curlimages/curl curl -v https://chatgpt.com
 ```bash
 $ sudo iptables -t mangle -L MIHOMO_TPROXY -n -v
 Chain MIHOMO_TPROXY (1 references)
- pkts bytes target     prot opt in     out     source               destination         
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.0/8         
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            10.0.0.0/8          
- 3680  225K RETURN     all  --  *      *       0.0.0.0/0            172.16.0.0/12       
-   14   822 RETURN     all  --  *      *       0.0.0.0/0            192.168.0.0/16      
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.0/8
+    0     0 RETURN     all  --  *      *       0.0.0.0/0            10.0.0.0/8
+ 3680  225K RETURN     all  --  *      *       0.0.0.0/0            172.16.0.0/12
+   14   822 RETURN     all  --  *      *       0.0.0.0/0            192.168.0.0/16
   528 57940 TPROXY     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            TPROXY redirect 127.0.0.1:7893 mark 0x1/0xffffffff
    82 11286 TPROXY     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            TPROXY redirect 127.0.0.1:7893 mark 0x1/0xffffffff
 ```
@@ -128,7 +128,7 @@ func main() {
 
 ```bash
 $ sudo netstat -tlnup | grep 7893
-tcp6       0      0 :::7893                 :::*                    LISTEN      869808/client   
+tcp6       0      0 :::7893                 :::*                    LISTEN      869808/client
 ```
 
 可以发现，虽然我们制定了监听在 `0.0.0.0` 这个 IPv4 地址上，但是实际监听的 socket 却是一个 IPv6 的 socket！
@@ -210,7 +210,7 @@ $ docker run --rm curlimages/curl curl -v https://www.google.com
 
 显然，透明代理转发的包的源地址是容器的 IP 地址，比如 `172.17.0.2`，怎么会是本地地址呢？和这个选项有什么关系呢？
 
-顺便提一嘴，你可能比较好奇，既然 `accept_local` 默认为 0，那如果我在本机执行一个 `curl localhost`，那源地址不就是本机地址吗？可我的包也没被丢啊？也能正常访问本机的 Nginx 啊？这就需要 dive into 内核的具体实现了。
+顺便提一嘴，你可能比较好奇，既然 `accept_local` 默认为 0，那如果我在本机执行一个 `curl localhost`，那源地址不就是本机地址吗？可我的包也没被丢啊？也能正常访问本机的 nginx 啊？这就需要 dive into 内核的具体实现了。
 
 解释这个困惑的代码位于内核的 `net/ipv4/ip_input.c` 文件中的 `ip_rcv_finish_core` 函数中：
 
@@ -311,13 +311,13 @@ int __ip_queue_xmit(struct sock *sk, struct sk_buff *skb, struct flowi *fl,
 	skb_dst_set_noref(skb, &rt->dst);
 
 packet_routed:
-	
+
 	// ...
 	// leave out for brevity
 	// ...
 
 no_route:
-	
+
 	// ...
 	// leave out for brevity
 	// ...
@@ -411,8 +411,8 @@ ip route add local default dev lo table $TABLE 2>/dev/null || true
 
 ```bash
 $ ip route get 172.17.0.233 mark 0x1
-local 172.17.0.233 dev lo table 100 src 172.17.0.233 mark 1 uid 1000 
-    cache <local> 
+local 172.17.0.233 dev lo table 100 src 172.17.0.233 mark 1 uid 1000
+    cache <local>
 ```
 
 这下我们终于能够理解为什么 `accept_local` 选项会对透明代理的包产生干扰了，正是因为透明代理的包在反查路由表的时候被标记为 `RTN_LOCAL` 类型。
@@ -425,15 +425,15 @@ local 172.17.0.233 dev lo table 100 src 172.17.0.233 mark 1 uid 1000
 
 ```bash
 $ ip route get 172.17.0.233 mark 0x1
-local 172.17.0.233 dev lo table 100 src 172.17.0.233 mark 1 uid 1000 
-    cache <local> 
+local 172.17.0.233 dev lo table 100 src 172.17.0.233 mark 1 uid 1000
+    cache <local>
 ```
 
 而在 `src_valid_mark=0` 的时候，实际查询等价于：
 
 ```bash
 $ ip route get 172.17.0.233
-172.17.0.233 dev docker0 src 172.17.0.1 uid 1000 
+172.17.0.233 dev docker0 src 172.17.0.1 uid 1000
     cache
 ```
 
@@ -482,7 +482,7 @@ $ grep -E "upgrade|install" /var/log/dpkg.log
 不难想到，最值得怀疑的当然是 tailscale 的更新了，而 gpt 也是很给力，直接给我从它的二进制和日志里找到了关键性证据：
 
 ```bash
-$ strings /usr/sbin/tailscaled | grep -oP '.{20}src_valid_mark.{20}'          
+$ strings /usr/sbin/tailscaled | grep -oP '.{20}src_valid_mark.{20}'
 %vnet.ipv4.conf.all.src_valid_markno Taildrop director
 g: failed to enable src_valid_mark: %vfixupWSLMTU: cou
 ```
@@ -536,11 +536,11 @@ index 273ea40..4ddc4aa 100755
 +++ b/etc/mihomo-tproxy/setup.sh
 @@ -8,6 +8,7 @@ DOCKER_CIDR=172.16.0.0/12
  TPROXY_PORT=7893
- 
+
  ip rule add fwmark $MARK table $TABLE priority 100 2>/dev/null || true
 +ip route add throw $DOCKER_CIDR table $TABLE 2>/dev/null || true
  ip route add local default dev lo table $TABLE 2>/dev/null || true
- 
+
  iptables -t mangle -N $CHAIN 2>/dev/null || iptables -t mangle -F $CHAIN
 ```
 
@@ -552,7 +552,7 @@ index b4b71cb..6503195 100755
 --- a/./teardown.sh
 +++ b/etc/mihomo-tproxy/teardown.sh
 @@ -12,3 +12,4 @@ iptables -t mangle -X $CHAIN 2>/dev/null || true
- 
+
  ip rule del fwmark $MARK table $TABLE 2>/dev/null || true
  ip route del local default dev lo table $TABLE 2>/dev/null || true
 +ip route del throw $DOCKER_CIDR table $TABLE 2>/dev/null || true
@@ -563,7 +563,7 @@ index b4b71cb..6503195 100755
 而根据路由表优先级：
 
 ```bash
-$ ip rule list           
+$ ip rule list
 0:      from all lookup local
 100:    from all fwmark 0x1 lookup 100
 5210:   from all fwmark 0x80000/0xff0000 lookup main
@@ -578,15 +578,15 @@ $ ip rule list
 
 ```bash
 $ ip route show table main
-default via 192.168.31.1 dev enp1s0 onlink 
-169.254.0.0/16 dev enp1s0 scope link metric 1000 
-172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
-172.18.0.0/16 dev br-a9b03e92b738 proto kernel scope link src 172.18.0.1 
-172.23.0.0/16 dev br-c038990f4cfd proto kernel scope link src 172.23.0.1 
-172.26.0.0/16 dev br-f1d772cc8627 proto kernel scope link src 172.26.0.1 
-172.27.0.0/16 dev br-c99aaddc755c proto kernel scope link src 172.27.0.1 
-172.28.0.0/16 dev br-fcd599ed7f10 proto kernel scope link src 172.28.0.1 
-192.168.31.0/24 dev enp1s0 proto kernel scope link src 192.168.31.120 
+default via 192.168.31.1 dev enp1s0 onlink
+169.254.0.0/16 dev enp1s0 scope link metric 1000
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+172.18.0.0/16 dev br-a9b03e92b738 proto kernel scope link src 172.18.0.1
+172.23.0.0/16 dev br-c038990f4cfd proto kernel scope link src 172.23.0.1
+172.26.0.0/16 dev br-f1d772cc8627 proto kernel scope link src 172.26.0.1
+172.27.0.0/16 dev br-c99aaddc755c proto kernel scope link src 172.27.0.1
+172.28.0.0/16 dev br-fcd599ed7f10 proto kernel scope link src 172.28.0.1
+192.168.31.0/24 dev enp1s0 proto kernel scope link src 192.168.31.120
 ```
 
 匹配到其中的 docker0 或者其他 br 网段，而这些表项不带有 `local` 选项，因此被透明转发的包自然就不会因 `accept_local=0` 而丢包了。
