@@ -77,7 +77,7 @@ $ npu-smi info
 
 每台机器上都配备了 8 张 910B3 加速卡，每张卡的显存大小是 64GB，不同机器之间采用 25GbE 高速以太网互联，每节点配备 4 #math.times 25GbE 端口，单节点网络带宽合计 100Gbps。
 
-不同机器的共用存储位于 `/user-storage`，相当于一个高性能的 nfs 实现，具体技术我就不清楚了。
+不同机器的共用存储位于 `/user-storage`，相当于一个高性能的 nfs 实现，具体技术细节我就不清楚了。
 
 = 部署
 
@@ -99,7 +99,7 @@ modelscope download \
 
 为了减少对本机环境的干扰（#strike[毕竟还是要最终给别人用的]），我使用官方推荐的 Docker 镜像 `quay.io/ascend/vllm-ascend:v0.18.0rc1` 来进行部署。
 
-因为国内访问容器仓库速率太慢或者干脆直接被墙了，所以我采用 #link("https://m.daocloud.io")[m.daocloud.io] 镜像来拉取镜像：
+因为国内访问镜像仓库速率太慢或者干脆直接被墙了，所以我采用 #link("https://m.daocloud.io")[m.daocloud.io] 镜像源来拉取镜像：
 
 ```bash
 docker pull m.daocloud.io/quay.io/ascend/vllm-ascend:v0.18.0rc1
