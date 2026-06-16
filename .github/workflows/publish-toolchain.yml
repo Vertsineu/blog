@@ -14,7 +14,7 @@ on:
       typst_version:
         description: typst-cli release version to install.
         required: true
-        default: '0.14.2'
+        default: '0.15.0'
 
 permissions:
   contents: write
