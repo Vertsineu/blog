@@ -3,7 +3,7 @@
 #import "@preview/cetz:0.5.2"
 
 #show: article.with(
-  title: "算法讲解——寻找两个升序数组的中位数",
+  title: "算法讲解 —— 寻找两个升序数组的中位数",
   date: datetime(year: 2026, month: 6, day: 25),
   tags: (
     domains: "algorithm",
