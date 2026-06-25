@@ -85,7 +85,7 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 }
 ```
 
-其中 `k2` 由 `k1` 被 `k` 减去而得到，因此天然保证了 $k_1 + k_2 = k$ 的约束。
+其中 `k2` 由 `k1` 被 `k` 减去而得到，因此天然保证了 $k_1 + k_2 = k$ 的约束，同时为了防止 `k` 越界，并且尽可能预先缩小二分区间，初始化 `l` 和 `r` 的时候相应的做了调整。
 
 但是，我们怎么知道什么情况下 $k_1$ 和 $k_2$ 恰好是 $c[k]$ 左侧的前缀长度呢？这时候，我们就要思考一下如果恰好是的情况下，会有什么特性：
 
@@ -282,7 +282,7 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 ```cpp
 int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k) {
   int m = nums1.size(), n = nums2.size();
-  int l = 0, r = m;
+  int l = std::max(0, k - n), r = std::min(m, k);
   while (l <= r) {
     int k1 = l + (r - l) / 2;
     int k2 = k - k1;
@@ -305,7 +305,7 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 }
 ```
 
-工程上，因为可能会有数组越界的问题，所以如果遇到数组边界，我们就将边界设置为 `INT_MIN` 和 `INT_MAX`。同时，`k1` 的二分范围要限制在 $max(0, k - n)..min(m, k)$ 内，这样才能保证 `k2` 始终落在 $0..n$ 内。
+工程上，因为可能会有数组越界的问题，所以如果遇到数组边界，我们就将边界设置为 `INT_MIN` 和 `INT_MAX`。
 
 综上，这题的一种解法如下所示：
 
@@ -330,7 +330,7 @@ public:
 private:
   int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k) {
     int m = nums1.size(), n = nums2.size();
-    int l = 0, r = m;
+    int l = std::max(0, k - n), r = std::min(m, k);
     while (l <= r) {
       int k1 = l + (r - l) / 2;
       int k2 = k - k1;
@@ -353,7 +353,7 @@ private:
 };
 ```
 
-其中，为了防止 `k2` 数组越界过多，所以 `nums1` 的长度需要小于等于 `nums2` 的长度，也就是 $m <= n$。
+其中，为了加快二分收敛，所以我们通过交换引用从而尽可能减少被二分的 `nums1` 的长度。
 
 = 优化
 
@@ -376,16 +376,16 @@ public:
     }
 
     int m = nums1.size(), n = nums2.size();
-    int l = 0, r = nums1.size();
+    int l = 0, r = m;
 
     while (l <= r) {
-      int mid1 = l + (r - l) / 2;
-      int mid2 = (m + n + 1) / 2 - mid1;
+      int k1 = l + (r - l) / 2;
+      int k2 = (m + n + 1) / 2 - k1;
 
-      int l1 = (mid1 == 0) ? INT_MIN : nums1[mid1 - 1];
-      int r1 = (mid1 == m) ? INT_MAX : nums1[mid1];
-      int l2 = (mid2 == 0) ? INT_MIN : nums2[mid2 - 1];
-      int r2 = (mid2 == n) ? INT_MAX : nums2[mid2];
+      int l1 = (k1 == 0) ? INT_MIN : nums1[k1 - 1];
+      int r1 = (k1 == m) ? INT_MAX : nums1[k1];
+      int l2 = (k2 == 0) ? INT_MIN : nums2[k2 - 1];
+      int r2 = (k2 == n) ? INT_MAX : nums2[k2];
 
       if (l1 <= r2 && l2 <= r1) {
         if ((m + n) % 2 == 0) {
@@ -394,9 +394,9 @@ public:
           return std::max(l1, l2);
         }
       } else if (l1 > r2) {
-        r = mid1 - 1;
+        r = k1 - 1;
       } else {
-        l = mid1 + 1;
+        l = k1 + 1;
       }
     }
 
