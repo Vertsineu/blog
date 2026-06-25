@@ -9,7 +9,7 @@
     domains: "algorithm",
     intents: "introduction",
   ),
-  draft: false
+  draft: false,
 )
 
 = 前言
@@ -17,6 +17,8 @@
 明天考试，但是实在没有复习的欲望，感觉丝毫没有前几天刷 leetcode 有意思，姑且就写一篇算法讲解的 blog，讲一下我觉得非常有意思的一道题：
 
 #blockquote[
+  #link("https://leetcode.cn/problems/median-of-two-sorted-arrays")[*4. 寻找两个升序数组的中位数*]
+
   给定两个大小分别为 $m$ 和 $n$ 的正序（从小到大）数组 $"nums1"$ 和 $"nums2"$。请你找出并返回这两个正序数组的中位数，算法的时间复杂度应该为 $O(log(m + n))$。
 ]
 
@@ -46,7 +48,7 @@ public:
         int m = nums1.size(), n = nums2.size();
         if ((m + n) % 2 == 0) {
             return (double) (
-              findKth(nums1, nums2, (m + n) / 2 - 1) + 
+              findKth(nums1, nums2, (m + n) / 2 - 1) +
               findKth(nums1, nums2, (m + n) / 2)
             ) / 2;
         } else {
@@ -99,9 +101,10 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 #cetz.canvas(length: 3cm, {
   import cetz.draw: *
 
-  let (beg, end) = (-1.5, 1.5);
-  let ha = 0.3; let hb = 0;
-  let off = 0.03;
+  let (beg, end) = (-1.5, 1.5)
+  let ha = 0.3
+  let hb = 0
+  let off = 0.03
   let na = ((-0, $a[k_1 - 1]$), (0.6, $a[k_1]$))
   let nb = ((-0.9, $b[k_2 - 1]$), (-0.3, $b[k_2]$))
 
@@ -127,9 +130,10 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 #cetz.canvas(length: 3cm, {
   import cetz.draw: *
 
-  let (beg, end) = (-1.5, 1.5);
-  let ha = 0.3; let hb = 0;
-  let off = 0.03;
+  let (beg, end) = (-1.5, 1.5)
+  let ha = 0.3
+  let hb = 0
+  let off = 0.03
   let na = ((-0.9, $a[k_1 - 1]$), (-0.3, $a[k_1]$))
   let nb = ((-0, $b[k_2 - 1]$), (0.6, $b[k_2]$))
 
@@ -156,9 +160,10 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 #cetz.canvas(length: 3cm, {
   import cetz.draw: *
 
-  let (beg, end) = (-1.5, 1.5);
-  let ha = 0.3; let hb = 0;
-  let off = 0.03;
+  let (beg, end) = (-1.5, 1.5)
+  let ha = 0.3
+  let hb = 0
+  let off = 0.03
   let na = ((-0.3, $a[k_1 - 1]$), (0.3, $a[k_1]$))
   let nb = ((-0.6, $b[k_2 - 1]$), (0, $b[k_2]$))
 
@@ -184,9 +189,10 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 #cetz.canvas(length: 3cm, {
   import cetz.draw: *
 
-  let (beg, end) = (-1.5, 1.5);
-  let ha = 0.3; let hb = 0;
-  let off = 0.03;
+  let (beg, end) = (-1.5, 1.5)
+  let ha = 0.3
+  let hb = 0
+  let off = 0.03
   let na = ((-0.6, $a[k_1 - 1]$), (0, $a[k_1]$))
   let nb = ((-0.3, $b[k_2 - 1]$), (0.3, $b[k_2]$))
 
@@ -212,9 +218,10 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 #cetz.canvas(length: 3cm, {
   import cetz.draw: *
 
-  let (beg, end) = (-1.5, 1.5);
-  let ha = 0.3; let hb = 0;
-  let off = 0.03;
+  let (beg, end) = (-1.5, 1.5)
+  let ha = 0.3
+  let hb = 0
+  let off = 0.03
   let na = ((-0.3, $a[k_1 - 1]$), (0.3, $a[k_1]$))
   let nb = ((-0.6, $b[k_2 - 1]$), (0.6, $b[k_2]$))
 
@@ -240,9 +247,10 @@ int findKth(const std::vector<int>& nums1, const std::vector<int>& nums2, int k)
 #cetz.canvas(length: 3cm, {
   import cetz.draw: *
 
-  let (beg, end) = (-1.5, 1.5);
-  let ha = 0.3; let hb = 0;
-  let off = 0.03;
+  let (beg, end) = (-1.5, 1.5)
+  let ha = 0.3
+  let hb = 0
+  let off = 0.03
   let na = ((-0.6, $a[k_1 - 1]$), (0.6, $a[k_1]$))
   let nb = ((-0.3, $b[k_2 - 1]$), (0.3, $b[k_2]$))
 
@@ -312,7 +320,7 @@ public:
     int m = nums1.size(), n = nums2.size();
     if ((m + n) % 2 == 0) {
       return (double) (
-        findKth(nums1, nums2, (m + n) / 2 - 1) + 
+        findKth(nums1, nums2, (m + n) / 2 - 1) +
         findKth(nums1, nums2, (m + n) / 2)
       ) / 2;
     } else {
