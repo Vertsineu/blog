@@ -86,7 +86,7 @@
   show <hide>: hide
 
   // label for frame
-  show <frame>: frame
+  show <frame>: it => figure(frame(it))
 
   body
 
