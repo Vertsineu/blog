@@ -1,16 +1,23 @@
-/* Prefer color remapping over full invert to avoid overly bright white in dark mode.
-   Typst 0.15 emits frame SVGs without the old typst-frame class, so include the
-   article figure/math containers while keeping the previous selectors. */
+/* Prefer color remapping over full invert to avoid overly bright white in dark mode. */
+
 :where(
   svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
+  .typst-frame svg,
+  .post-content > svg,
   .post-content figure svg,
   .post-content [role="math"] svg
 ) {
   -webkit-filter: none !important;
   filter: none !important;
+}
+
+.post-content span[role="math"] {
+  display: inline;
+}
+
+.post-content span[role="math"] > svg {
+  display: inline-block !important;
+  vertical-align: baseline;
 }
 
 :root {
@@ -32,76 +39,60 @@ html[data-theme="dark"] {
 
 :where(
   svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
+  svg.typst-frame *,
+  .typst-frame svg,
+  .typst-frame svg *,
+  .post-content > svg,
+  .post-content > svg *,
   .post-content figure svg,
-  .post-content [role="math"] svg
-):is([fill="#000"], [fill="#000000"], [fill="black"], [fill="rgb(0,0,0)"], [fill="rgb(0, 0, 0)"]),
-:where(
-  svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
-  .post-content figure svg,
-  .post-content [role="math"] svg
-) :is([fill="#000"], [fill="#000000"], [fill="black"], [fill="rgb(0,0,0)"], [fill="rgb(0, 0, 0)"]) {
+  .post-content figure svg *,
+  .post-content [role="math"] svg,
+  .post-content [role="math"] svg *
+):is([fill="#000"], [fill="#000000"], [fill="black"], [fill="rgb(0,0,0)"], [fill="rgb(0, 0, 0)"]) {
   fill: var(--typst-frame-ink) !important;
 }
 
 :where(
   svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
+  svg.typst-frame *,
+  .typst-frame svg,
+  .typst-frame svg *,
+  .post-content > svg,
+  .post-content > svg *,
   .post-content figure svg,
-  .post-content [role="math"] svg
-):is([stroke="#000"], [stroke="#000000"], [stroke="black"], [stroke="rgb(0,0,0)"], [stroke="rgb(0, 0, 0)"]),
-:where(
-  svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
-  .post-content figure svg,
-  .post-content [role="math"] svg
-) :is([stroke="#000"], [stroke="#000000"], [stroke="black"], [stroke="rgb(0,0,0)"], [stroke="rgb(0, 0, 0)"]) {
+  .post-content figure svg *,
+  .post-content [role="math"] svg,
+  .post-content [role="math"] svg *
+):is([stroke="#000"], [stroke="#000000"], [stroke="black"], [stroke="rgb(0,0,0)"], [stroke="rgb(0, 0, 0)"]) {
   stroke: var(--typst-frame-ink) !important;
 }
 
 :where(
   svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
+  svg.typst-frame *,
+  .typst-frame svg,
+  .typst-frame svg *,
+  .post-content > svg,
+  .post-content > svg *,
   .post-content figure svg,
-  .post-content [role="math"] svg
-):is([fill="#fff"], [fill="#ffffff"], [fill="white"], [fill="rgb(255,255,255)"], [fill="rgb(255, 255, 255)"]),
-:where(
-  svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
-  .post-content figure svg,
-  .post-content [role="math"] svg
-) :is([fill="#fff"], [fill="#ffffff"], [fill="white"], [fill="rgb(255,255,255)"], [fill="rgb(255, 255, 255)"]) {
+  .post-content figure svg *,
+  .post-content [role="math"] svg,
+  .post-content [role="math"] svg *
+):is([fill="#fff"], [fill="#ffffff"], [fill="white"], [fill="rgb(255,255,255)"], [fill="rgb(255, 255, 255)"]) {
   fill: var(--typst-frame-paper) !important;
 }
 
 :where(
   svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
+  svg.typst-frame *,
+  .typst-frame svg,
+  .typst-frame svg *,
+  .post-content > svg,
+  .post-content > svg *,
   .post-content figure svg,
-  .post-content [role="math"] svg
-):is([stroke="#fff"], [stroke="#ffffff"], [stroke="white"], [stroke="rgb(255,255,255)"], [stroke="rgb(255, 255, 255)"]),
-:where(
-  svg.typst-frame,
-  .typst-frame > svg.typst-frame,
-  .typst-frame > svg,
-  .typst-frame svg.typst-frame,
-  .post-content figure svg,
-  .post-content [role="math"] svg
-) :is([stroke="#fff"], [stroke="#ffffff"], [stroke="white"], [stroke="rgb(255,255,255)"], [stroke="rgb(255, 255, 255)"]) {
+  .post-content figure svg *,
+  .post-content [role="math"] svg,
+  .post-content [role="math"] svg *
+):is([stroke="#fff"], [stroke="#ffffff"], [stroke="white"], [stroke="rgb(255,255,255)"], [stroke="rgb(255, 255, 255)"]) {
   stroke: var(--typst-frame-paper) !important;
 }

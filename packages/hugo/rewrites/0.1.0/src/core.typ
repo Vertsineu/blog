@@ -143,7 +143,7 @@
 
   let block = it.block
   if block {
-    html.figure(role: "math", style: "text-align: center;", frame(it))
+    html.figure(role: "math", align(center, frame(it)))
   } else {
     html.span(role: "math", frame(it))
   }
