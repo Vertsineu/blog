@@ -16,7 +16,7 @@
 
 明天考试，但是实在没有复习的欲望，感觉丝毫没有前几天刷 leetcode 有意思，姑且就写一篇算法讲解的 blog，讲一下我觉得非常有意思的一道题：
 
-#blockquote[
+#quote[
   #link("https://leetcode.cn/problems/median-of-two-sorted-arrays")[*4. 寻找两个升序数组的中位数*]
 
   给定两个大小分别为 $m$ 和 $n$ 的正序（从小到大）数组 $"nums1"$ 和 $"nums2"$。请你找出并返回这两个正序数组的中位数，算法的时间复杂度应该为 $O(log(m + n))$。

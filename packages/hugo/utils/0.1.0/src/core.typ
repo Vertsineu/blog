@@ -64,7 +64,7 @@
 
 // some enhancements elements for Typst
 // e.g support blockquote, collapsible, etc.
-#let blockquote = html.blockquote
+#let quote = quote.with(block: true)
 #let hr = html.hr
 
 #let collapsible(open: false, summary, body) = {
