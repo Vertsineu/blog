@@ -1,4 +1,5 @@
 baseURL = 'https://blog.vertsineu.top/'
+hasCJKLanguage = true
 locale = 'en-us'
 timeZone = 'Asia/Shanghai'
 title = "Vertsineu's Blog"
