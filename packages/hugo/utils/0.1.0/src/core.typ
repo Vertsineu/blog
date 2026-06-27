@@ -1,16 +1,8 @@
 // some utility functions for better HTML output, e.g. support for colors, alignments, etc.
 #let frame = html.frame
 
-#let to-length(value) = {
-  if type(value) == length {
-    str(value)
-  } else if type(value) == int {
-    str(value) + "pt"
-  } else if type(value) == float {
-    str(value) + "pt"
-  } else {
-    none
-  }
+#let to-str(value) = {
+  return str(repr(value))
 }
 
 // support: place-items, text-align, vertical-align, etc.

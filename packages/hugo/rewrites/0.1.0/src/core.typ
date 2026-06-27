@@ -168,12 +168,21 @@
     return it
   }
 
-  let alt = if it.alt != none { it.alt } else { "" }
-  let src = if type(it.source) == str { it.source } else {
+  let attrs = (:)
+  attrs.insert("alt", if it.alt != none { it.alt } else { "" })
+  attrs.insert("src", if type(it.source) == str { it.source } else {
     panic("unsupported image source type for HTML output, please use a string!")
+  })
+  let fields = it.fields()
+  if "width" in fields {
+    attrs.insert("width", to-str(it.width))
   }
 
-  html.img(src: src, alt: alt, loading: "lazy")
+  if "height" in fields {
+    attrs.insert("height", to-str(it.height))
+  }
+
+  html.elem("img", attrs: attrs)
 }
 
 #let fake-par-func(it, must: true) = context {
