@@ -28,7 +28,7 @@
 
 考完试就是军训，两周的军训，还挺水的，平时并没有很严苛的训练条目，主要就是走方阵，就当熟悉熟悉校园，过得也挺轻松的。军训期间有一个小插曲就是选课。由于大一刚入学，对于选课机制和系统完全不了解，在反复查阅刚入学发的学生手册后才得知，必须在军训中午休息的 12:00 的时候和别的同学抢课（为什么我记得这么清楚呢？因为 12:00 的时候教务系统崩了，硬是等到快 13:00 的时候才抢上课）。
 
-军训完后的一周就是游园会社团招新了。由于我是从小城市来的，高中完全没有所谓的社团的说法，更别说参与社团了，因此社团招新这几天到处逛来逛去充满好奇地捡小礼品玩。我对文艺活动基本上不是很感兴趣，也就日常看看番、玩玩 galgame，也不玩二游、逛漫展，因此没有参与那类的社团；相反，我对于计算机方面比较感兴趣，尤其是看上去就很厉害很酷的 Linux 系统，于是果断加入了 ustclug 和算法竞赛两个社团。
+军训完后的一周就是游园会社团招新了。由于我是从小城市来的，高中完全没有所谓的社团的说法，更别说参与社团了，因此社团招新这几天到处逛来逛去充满好奇地捡小礼品玩。我对文艺活动基本上不是很感兴趣，也就日常看看番、玩玩 galgame，也不玩二游、逛漫展，因此没有参与那类的社团；相反，我对于计算机方面比较感兴趣，尤其是看上去就很厉害很酷的 Linux 系统，于是果断加入了 #link("https://lug.ustc.edu.cn/")[ustclug] 和算法竞赛两个社团。
 
 刚上大学，还保留着学生时代做题家的思维，对接触新事物和与人社交方面欠缺了太多，可能这也间接导致了本科期间我对未来缺乏规划，以至于上大学感觉就是在纯凭兴趣到处玩，但是玩得也挺开心的，因此我也不后悔。
 
@@ -38,21 +38,83 @@
 
 突然想起来，其实应该是有的，参加 lug 的二课活动！但是我不善社交，每次参加活动都不敢和 lug 内部负责人们打成一片，而且当时我的计算机水平也不够，很多话题我也听不懂（sad），就默默参加二课支持一下。
 
-当时我应该是参加了 lug 举办的 HackerGame 2023，这个面向初学者的 CTF 比赛是真的好玩（#strike[虽然现在因为 AI Agent 的原因马上就要入土了]），对于我这种以前从来没接触过 CTF 比赛的新手来说玩得可起劲了，但是非常难绷的是，这个比赛开在期中考试附近，还只有一周，导致我不得不以期中复习为重，完全没时间玩啊！
+而在当年 lug 举办的 #link("https://lug.ustc.edu.cn/news/2023/09/SFD/")[SFD (Software Freedom Day) 中国科大站] 中，我有幸从一位宣讲 RISC-V 开源生态的宣讲者那里免费拿到了一块名为 #link("https://milkv.io/zh/docs/duo/overview")[Milkv Duo] 的 RISC-V 开发板，并在#link("https://ipb.ustc.edu.cn/main.htm")[中区的创新实践基地] 用免费的电烙铁和焊锡焊上弯排针（为什么是弯的呢？单纯是因为感觉如果焊直的容易在桌子上放不稳）：
 
-还有就是两门令我受益匪浅的课程：
+#figure(
+  caption: [焊好弯排针的 Milkv Duo 开发板 (12.23)],
+  image("/images/milkv-duo-with-pins.jpg", width: 60%)
+)
+
+不过在焊排针之前，我还买了一个 Ethernet 模块，因为使用基于 USB 的网络实在是太难受了，必须供电和网络共用同一个接口，不能直接插到我额外的连在电源适配器上的 USB 线。但是难绷的是，这个板子的设计实在是有点神秘，如下图所示：
+
+#figure(
+  caption: [以太网模块和待插入的 SD 卡冲突 (11.15)],
+  image("/images/milkv-duo-ethernet.jpg", width: 60%)
+)
+
+模块突出的引脚会把 SD 卡挡住放不进去，真是给我气笑了。
+
+此外，当时我还参加了 lug 举办的 HackerGame 2023，这个面向初学者的 CTF 比赛是真的好玩（#strike[虽然现在因为 AI Agent 的原因马上就要入土了]），对于我这种以前从来没接触过 CTF 比赛的新手来说玩得可起劲了，但是非常难绷的是，这个比赛开在期中考试附近，还只有一周，导致我不得不以期中复习为重，完全没时间玩啊！
+
+然后就是至今依旧受益匪浅的一件事 —— 在宿舍里搭建 Debian 服务器，改装自原本放在家里的小型台式主机，简简单单刷了个 Debian 12（现已更新至 Debian 13）的镜像进去，其内部结构如下图所示：
+
+#figure(
+  caption: [Debian Server Inner (11.17)],
+  image("/images/debian-server-inner.jpg", width: 60%)
+)
+
+这台机器目前依旧在我的宿舍里工作中，主要用于部署一些个人的重要服务，具体可见前文#link("/posts/servers-at-school/")[校内个人服务器搭建和配置方案]。
+
+最后就是两门令我受益匪浅的课程：
 
 - 一是工院的机械制图，教会了我 CAD 入门，让我对工程设计方面有一定了解，我觉得还是很有趣的，而且对我之后 3D 建模，EDA 画板子之类的都很有帮助！
+
+  #figure(
+    caption: [机械制图作业题（工图还在追我）(9.27)],
+    image("/images/engineering-drawing.png", width: 100%)
+  )
 - 二是计算机程序与设计进阶班，让我躲过了枯燥无聊的普通班的 C 语言课程，得以写一些#link("https://git.vertsineu.top/Vertsineu/Homework/src/branch/master/1-1/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E5%AE%9E%E9%AA%8C/C1")[复杂但有趣的算法]，并和一群有着丰富 coding 经验的同学相识！
+
+  以下是 C1 题随机生成 1024 位大素数的示例输出： 
+
+  ```bash
+  $ gcc -o C1 ./C1.c ./C1_mr.c -O3 && ./C1
+  Please input the mode (t to test, g to generate, q to quit):
+  g
+  How many prime numbers do you want?
+  5
+  try count: 277, runtime is 13s.
+  c1c57071168405a11430050cf9633e58fa4c7e939976e65dbb52aed4b27c2c9f35700d5cae2aab8a85c62171295e0a57021140843ec0cfb0eca33b288fbee3efa9632a58826d609becadfb2ba879ea1e9b5126d40073801cef0bbbc20e8d03a39c4aa712fcc83f3288c422317887de21c6a9f1aa124b0492134b84d2c8623607
+  try count: 41, runtime is 1s.
+  d90d7643ca2f728b435110d480cf60333e424f90ac886b22dd7ff75f5e2e578b7e1cdf87670ed9c34048101296b625ad47e651f9951e25479766a5d90572015cf42ffd0b9d6067582577895dd1c134708e27a389841c61072f2fcbcb18ddc6374fd213f41f8ac7e20573c15cb1646c59e0b5782de907ba4116ae85ab583e1661
+  try count: 251, runtime is 12s.
+  c232508c8cb0232c1dad876b52aad4aa525994962af80abecb64b2d9e5c139708fa7a3e9ce8f73a347db51f6348ecd2332b1ccace625b989ee183b8688d3e2340d6cc35b97e2a5f88bd1e2f461e8987a0fa943ea35e00d7871fddc7fbd122f44a0fca83fdd433750a85aea16c059f01644ae912bdaf5f6bd9a8f26a3ef887f6b
+  try count: 169, runtime is 7s.
+  eef61bbdd754b5d5dd24b749d39eb4e7871da1c71ac586b11280c4a0a8392a0e911864463c614f18f118bc46a3c128f080f9a03e1be606f9cfeff3fba362e8d874d55d35482e520ba0246809f4413d109f73a7dc37af8debfa35fe8deff6bbfdfe5c7f973bab4eea906fa41b1c7e471fe28bf8a20a2e428b0937824d9b5868cb
+  try count: 587, runtime is 34s.
+  902cc40bcfa533e91a6546997f905fe4eede3bb7474251d08de4237984dba136fd0eff43adda2b76179ac5e6f16fbc5b64e8593a7ae51eb930fb8c3ef0747c1de7ad39eb337dccdf1d6ac75a1164c45983f620fd6f065bc1159a45660e57439587ea61facd217348dcd9373664a3d92880846021e99f3a678f4f23d3909c6de7
+  ```
 
 == 大一下 (2024.2 - 2024.6)
 
-大一下的主要事件之一应该就是转专业了，因为大一结束后有提前转专业的机会，为此我跨院选修了计科大一下的专业必修课以防之后补修，再加上工院本身的课和科社的 ddl 逼近，这个学期当之无愧是我这三年里最累的一个学期了。
+大一下的主线事件应该就是转专业了，因为大一结束后有提前转专业的机会，为此我跨院选修了计科大一下的专业必修课以防之后补修，再加上工院本身的课和科社的 ddl 逼近，这个学期当之无愧是我这三年里最累的一个学期了。
 
-在课内课程方面，令人印象深刻的还得是工程科学实践，运用各种工业设备和工具制造各种各样有趣的小玩意，最后还造了个小锤子：
+在课内课程方面，令人印象深刻的还得是工程科学实践，运用各种工业设备和工具制造各种各样有趣的小玩意：
 
 #figure(
-  caption: [钳工、铣工、车工综合实践产物],
+  caption: [汤姆森冲锋枪平面示意图（BF1 玩家最爱）(6.15)],
+  image("/images/Thompson.jpg", width: 60%)
+)
+
+#figure(
+  caption: [汐山涼音 Q 版表情包（柚子社第 11 作）(6.15)],
+  image("/images/Suzune.jpg", width: 60%)
+)
+
+还造了个小锤子：
+
+#figure(
+  caption: [钳工、铣工、车工综合实践成果 (3.25)],
   image("/images/hammer.jpg", width: 60%)
 )
 
@@ -61,7 +123,7 @@
 其实一开始我对这个机器人比赛还不是很感冒，但是那一年 5 月份，我心血来潮，自制了在宿舍里整了一个自动关灯的小装置，如下所示：
 
 #figure(
-  caption: [简易宿舍自动关灯装置],
+  caption: [简易宿舍自动关灯装置 (5.22)],
   image("/images/auto-turn-off-light.png", width: 60%)
 )
 
