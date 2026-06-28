@@ -9,7 +9,7 @@
     domains: ("life"),
     intents: ("casual"),
   ),
-  draft: true,
+  draft: false,
 )
 
 = 前言
