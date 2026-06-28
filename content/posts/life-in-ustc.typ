@@ -38,7 +38,7 @@
 
 突然想起来，其实应该是有的，参加 lug 的二课活动！但是我不善社交，每次参加活动都不敢和 lug 内部负责人们打成一片，而且当时我的计算机水平也不够，很多话题我也听不懂（sad），就默默参加二课支持一下。
 
-而在当年 lug 举办的 #link("https://lug.ustc.edu.cn/news/2023/09/SFD/")[SFD (Software Freedom Day) 中国科大站] 中，我有幸从一位宣讲 RISC-V 开源生态的宣讲者那里免费拿到了一块名为 #link("https://milkv.io/zh/docs/duo/overview")[Milkv Duo] 的 RISC-V 开发板，并在#link("https://ipb.ustc.edu.cn/main.htm")[中区的创新实践基地] 用免费的电烙铁和焊锡焊上弯排针（为什么是弯的呢？单纯是因为感觉如果焊直的容易在桌子上放不稳）：
+而在当年 lug 举办的 #link("https://lug.ustc.edu.cn/news/2023/09/SFD/")[SFD (Software Freedom Day) 中国科大站] 中，我有幸从一位宣讲 RISC-V 开源生态的宣讲者那里免费拿到了一块名为 #link("https://milkv.io/zh/docs/duo/overview")[Milkv Duo] 的 RISC-V 开发板，并在#link("https://ipb.ustc.edu.cn/main.htm")[中区的创新实践基地]用免费的电烙铁和焊锡焊上弯排针（为什么是弯的呢？单纯是因为感觉如果焊直的容易在桌子上放不稳）：
 
 #figure(
   caption: [焊好弯排针的 Milkv Duo 开发板 (23.12.23)],
