@@ -334,7 +334,7 @@ Locale: en_US.UTF-8
 首先就是饭菜，富有西北特色，具体来说就是，很多很多香软的羊肉，就算没有任何酱料本身也非常软烂可口，反正我是真吃爽了，而这样的餐食我还可以吃 4 天 4 夜。
 
 #figure(
-  caption: [刚到青海大学当天的中餐 (5.9)],
+  caption: [刚到青海大学当天的中餐 (25.5.9)],
   image("/images/asc-lunch.jpg", width: 60%)
 )
 
@@ -343,7 +343,7 @@ Locale: en_US.UTF-8
 而在当天结束调试，准备关机器的时候，一件令人意想不到的事情发生了：
 
 #figure(
-  caption: [ZJU 火星科技之行星发动机 (5.9)],
+  caption: [ZJU 火星科技之行星发动机 (25.5.9)],
   image("/images/asc-int-max.jpg", width: 60%)
 )
 
@@ -352,7 +352,7 @@ Locale: en_US.UTF-8
 接着第二天，还是调机器，主要是各自应用的适配、迁移以及各自机器的功率的控制问题，没有什么特别的发生。
 
 #figure(
-  caption: [服务器启动时的 UEFI BIOS 部分输出 (5.11)],
+  caption: [服务器启动时的 UEFI BIOS 部分输出 (25.5.11)],
   image("/images/asc-bios.jpg", width: 60%)
 )
 
@@ -369,7 +369,7 @@ Locale: en_US.UTF-8
 除此之外，在翻阅以往的照片时，我还想起来了在 5 月底的时候，另一位学物理的高中同学前来我校访学，真是非常幸运，一个月同时能遇到两位很久没见的高中同学了，他还送了一些小礼物：
 
 #figure(
-  caption: [枕社二创卡片和徽章 (5.24)],
+  caption: [枕社二创卡片和徽章 (25.5.24)],
   image("/images/galgame-present.jpg", width: 60%)
 )
 
