@@ -14,7 +14,7 @@
 
 = 前言
 
-在#link("/posts/servers-at-school")[之前的文章]里，我介绍了我在校内个人服务器的搭建和配置方案，其中我的服务是通过一个香港的 VPS 通过 tailscale 反代到校内实际服务器来实现的对外暴露，但是，这样就会带来一个问题 —— 如果我身处校内，我明明可以直连服务器（校内有线连接的机器都有公网 IP，只是对校外封禁 80、443 端口），但我的流量必须首先从校内转发到 Cloudflare，然后 VPS，最后回到校内，这大大降低了链路稳定性、提高了链路延迟并限制了链路带宽，对于某些服务来说，比如 webdav，会显著影响使用体验。
+在#link("/posts/servers-at-school")[之前的文章]里，我介绍了我在校内个人服务器的搭建和配置方案，其中我的服务是在一个香港的 VPS 通过 nginx 反代到使用 tailscale 连接的校内实际服务器来实现的对外暴露，但是，这样就会带来一个问题 —— 如果我身处校内，我明明可以直连服务器（校内有线连接的机器都有公网 IP，只是对校外封禁 80、443 端口），但我的流量必须首先从校内转发到 Cloudflare，然后 VPS，最后回到校内，这大大降低了链路稳定性、提高了链路延迟并限制了链路带宽，对于某些服务来说，比如 webdav，会显著影响使用体验。
 
 因此，我需要一个机制能够让所有来自校内的请求直接连接到校内的服务器，而只有来自校外的请求则通过 VPS 中转到校内，理想的线路优化的结果如下图所示：
 
@@ -324,6 +324,11 @@ server {
                 ngx.req.set_header("Authorization", final_auth)
             else
                 ngx.req.clear_header("Authorization")
+            end
+            local args = ngx.req.get_uri_args()
+            if args.jwt then
+                args.jwt = nil
+                ngx.req.set_uri_args(args)
             end
         }
 
